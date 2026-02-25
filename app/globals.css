@@ -1,14 +1,36 @@
+/* Global body styling */
 body {
-  background-color: #f5f5dc; /* nude/beige */
+  background-color: #e6e6fa; /* light purple (lavender) */
   color: #000000; /* black text */
   font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif; /* clean tech font */
   margin: 0;
   padding: 0;
 }
 
+/* Grey section blocks (e.g., male sections, admin panels) */
 .section-male {
-  background-color: #d3d3d3; /* grey for male sections */
+  background-color: #d3d3d3; /* light grey */
   padding: 20px;
   border-radius: 8px;
 }
 
+/* Accent buttons (pink) */
+.button-pink {
+  background-color: #ff69b4; /* hot pink */
+  color: #fff;
+  padding: 10px 20px;
+  border-radius: 6px;
+  border: none;
+  cursor: pointer;
+  font-weight: bold;
+}
+
+.button-pink:hover {
+  background-color: #ff85c1; /* lighter pink on hover */
+}
+
+/* General button styling */
+button {
+  font-family: inherit;
+  font-size: 1rem;
+}
