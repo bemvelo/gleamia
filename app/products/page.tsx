@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import { collection, getDocs } from "firebase/firestore";
 import { db } from "@/src/lib/firebase";
+import Link from "next/link";
 
 type Product = {
   id: string;
@@ -48,12 +49,14 @@ export default function ProductsPage() {
           >
             <h2 className="text-lg font-semibold">{product.name}</h2>
             <p className="text-gray-600">${product.price}</p>
+            <Link href="/cart">
             <button
               onClick={() => addToCart(product)}
               className="bg-blue-600 text-white px-3 py-1 mt-2 rounded"
             >
               Add to Cart
             </button>
+            </Link>
           </div>
         ))}
       </div>
