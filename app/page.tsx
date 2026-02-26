@@ -3,7 +3,7 @@
 import { useState } from "react";
 import Link from "next/link";
 import NavBar from "@components/NavBar";
-import { auth } from "@src/lib/firebase";
+import { auth } from "@src/lib/firebase.js";
 import { signInWithEmailAndPassword, createUserWithEmailAndPassword } from "firebase/auth";
 
 export default function HomePage() {
