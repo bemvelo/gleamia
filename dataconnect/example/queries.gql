@@ -1,0 +1,53 @@
+query ListAllProducts @auth(level: PUBLIC, insecureReason: "This operation is safe to expose to the public") {
+  products {
+    id
+    name
+    description
+    price
+    imageUrl
+    stockQuantity
+    category
+    material
+    gemstone
+    weight
+  }
+}
+
+query GetUserProfile @auth(level: USER) {
+  user(key: {id_expr: "auth.uid"}) {
+    id
+    displayName
+    email
+    firstName
+    lastName
+    phoneNumber
+    shippingAddress
+    billingAddress
+    createdAt
+  }
+}
+
+mutation CreateNewOrder($userId: UUID!, $totalAmount: Float!, $status: String!, $shippingAddress: String, $billingAddress: String) @auth(level: USER) {
+  order_insert(data: {
+    userId: $userId,
+    orderDate_expr: "request.time",
+    totalAmount: $totalAmount,
+    status: $status,
+    shippingAddress: $shippingAddress,
+    billingAddress: $billingAddress
+  }) {
+    id
+  }
+}
+
+mutation LogUserActivity($activityType: String!, $productId: UUID, $searchQuery: String) @auth(level: USER) {
+  userActivity_insert(data: {
+    userId_expr: "auth.uid",
+    activityType: $activityType,
+    timestamp_expr: "request.time",
+    productId: $productId,
+    searchQuery: $searchQuery
+  }) {
+    id
+  }
+}
