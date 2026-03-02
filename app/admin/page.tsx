@@ -2,68 +2,83 @@
 
 import Link from "next/link";
 
-export default function ManagePage() {
+export default function AdminPage() {
   return (
     <div className="min-h-screen bg-[#f5f5dc] text-black p-10">
-      <h1 className="text-3xl font-bold mb-8">Admin Management</h1>
+      <h1 className="text-3xl font-bold mb-8">Admin Dashboard</h1>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-        {/* Product Management */}
-        <div className="section-male p-6 rounded">
-          <h2 className="text-xl font-semibold mb-4">Product Management</h2>
-          <p>Add, edit, delete products, upload images, set prices and categories.</p>
-          <Link href="/admin/products">
-            <button className="bg-purple-600 text-white px-4 py-2 rounded mt-3">
-              Go to Products
-            </button>
-          </Link>
+      {/* Quick Stats */}
+      <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
+        <div className="p-4 bg-white rounded shadow">
+          <h2 className="text-lg font-semibold">Products</h2>
+          <p>120</p>
         </div>
+        <div className="p-4 bg-white rounded shadow">
+          <h2 className="text-lg font-semibold">Orders</h2>
+          <p>45</p>
+        </div>
+        <div className="p-4 bg-white rounded shadow">
+          <h2 className="text-lg font-semibold">Users</h2>
+          <p>300</p>
+        </div>
+        <div className="p-4 bg-white rounded shadow">
+          <h2 className="text-lg font-semibold">Visits Today</h2>
+          <p>1,200</p>
+        </div>
+      </div>
+
+      {/* Main Management Cards */}
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+        {/* Analytics */}
+        <Link
+          href="/admin/analytics"
+          className="section-male p-6 rounded shadow flex flex-col items-center"
+        >
+          <img src="/icons/analytics.png" alt="Analytics" className="w-16 h-16 mb-4" />
+          <h2 className="text-xl font-semibold mb-2">Analytics</h2>
+          <p>View product sales, site visits, and market insights.</p>
+        </Link>
+
+        {/* Product Management */}
+        <Link
+          href="/admin/products"
+          className="section-male p-6 rounded shadow flex flex-col items-center"
+        >
+          <img src="/icons/products.png" alt="Products" className="w-16 h-16 mb-4" />
+          <h2 className="text-xl font-semibold mb-2">Products</h2>
+          <p>Add, edit, delete products, upload images, set prices and categories.</p>
+        </Link>
 
         {/* User Management */}
-        <div className="section-male p-6 rounded">
-          <h2 className="text-xl font-semibold mb-4">User Management</h2>
+        <Link
+          href="/admin/users"
+          className="section-male p-6 rounded shadow flex flex-col items-center"
+        >
+          <img src="/icons/users.png" alt="Users" className="w-16 h-16 mb-4" />
+          <h2 className="text-xl font-semibold mb-2">Users</h2>
           <p>View registered users, assign roles, manage accounts.</p>
-          <Link href="/admin/users">
-            <button className="bg-gray-600 text-white px-4 py-2 rounded mt-3">
-              Go to Users
-            </button>
-          </Link>
-        </div>
-
-        {/* Analytics */}
-        <div className="section-male p-6 rounded">
-          <h2 className="text-xl font-semibold mb-4">Analytics</h2>
-          <p>View sales reports, inventory insights, and customer activity.</p>
-          <Link href="/admin/analytics">
-            <button className="bg-green-600 text-white px-4 py-2 rounded mt-3">
-              Go to Analytics
-            </button>
-          </Link>
-        </div>
+        </Link>
 
         {/* Order Management */}
-        <div className="section-male p-6 rounded">
-          <h2 className="text-xl font-semibold mb-4">Order Management</h2>
+        <Link
+          href="/admin/orders"
+          className="section-male p-6 rounded shadow flex flex-col items-center"
+        >
+          <img src="/icons/orders.png" alt="Orders" className="w-16 h-16 mb-4" />
+          <h2 className="text-xl font-semibold mb-2">Orders</h2>
           <p>View customer orders, update status, and track fulfillment.</p>
-          <Link href="/admin/orders">
-            <button className="bg-red-600 text-white px-4 py-2 rounded mt-3">
-              Go to Orders
-            </button>
-          </Link>
-        </div>
+        </Link>
 
         {/* Settings */}
-        <div className="section-male p-6 rounded">
-          <h2 className="text-xl font-semibold mb-4">Settings</h2>
+        <Link
+          href="/admin/settings"
+          className="section-male p-6 rounded shadow flex flex-col items-center"
+        >
+          <img src="/icons/settings.png" alt="Settings" className="w-16 h-16 mb-4" />
+          <h2 className="text-xl font-semibold mb-2">Settings</h2>
           <p>Configure store details, payment, and shipping options.</p>
-          <Link href="/admin/settings">
-            <button className="bg-blue-600 text-white px-4 py-2 rounded mt-3">
-              Go to Settings
-            </button>
-          </Link>
-        </div>
+        </Link>
       </div>
     </div>
   );
 }
-
