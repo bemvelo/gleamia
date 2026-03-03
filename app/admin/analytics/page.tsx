@@ -3,7 +3,7 @@
 import AnalyticsChart from "../../../components/AnalyticsChart";
 
 export default function AnalyticsPage() {
-  // Example data — replace with Firestore queries
+  // Example datasets — replace with Firestore queries later
   const salesData = [
     { month: "Jan", sales: 120 },
     { month: "Feb", sales: 200 },
@@ -19,9 +19,19 @@ export default function AnalyticsPage() {
   return (
     <div className="min-h-screen bg-[#f5f5dc] text-black p-10">
       <h1 className="text-3xl font-bold mb-8">Analytics</h1>
+
+      {/* Product Sales Chart */}
       <AnalyticsChart title="Product Sales" data={salesData} />
+
+      {/* Site Visits Chart */}
       <AnalyticsChart title="Site Visits" data={visitsData} />
-      {/* Add market analytics here */}
+
+      {/* Market Analytics placeholder */}
+      <div className="bg-white p-6 rounded shadow mt-6">
+        <h2 className="text-xl font-semibold mb-2">Market Analytics</h2>
+        <p>Coming soon: customer demographics, trending categories, and regional sales insights.</p>
+      </div>
     </div>
   );
 }
+
