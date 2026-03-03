@@ -3,7 +3,7 @@
 import AnalyticsChart from "../../../components/AnalyticsChart";
 
 export default function AnalyticsPage() {
-  // Example datasets — replace with Firestore queries later
+  // Example datasets — replace these with Firestore queries in production
   const salesData = [
     { month: "Jan", sales: 120 },
     { month: "Feb", sales: 200 },
@@ -17,21 +17,26 @@ export default function AnalyticsPage() {
   ];
 
   return (
-    <div className="min-h-screen bg-[#f5f5dc] text-black p-10">
-      <h1 className="text-3xl font-bold mb-8">Analytics</h1>
+    <div className="min-h-screen bg-[#e6e6fa] text-black p-10">
+      <h1 className="text-3xl font-bold mb-8">Admin Analytics</h1>
 
       {/* Product Sales Chart */}
-      <AnalyticsChart title="Product Sales" data={salesData} />
+      <div className="bg-white p-6 rounded shadow mb-8">
+        <AnalyticsChart title="Product Sales" data={salesData} />
+      </div>
 
       {/* Site Visits Chart */}
-      <AnalyticsChart title="Site Visits" data={visitsData} />
+      <div className="bg-white p-6 rounded shadow mb-8">
+        <AnalyticsChart title="Site Visits" data={visitsData} />
+      </div>
 
       {/* Market Analytics placeholder */}
-      <div className="bg-white p-6 rounded shadow mt-6">
+      <div className="bg-white p-6 rounded shadow">
         <h2 className="text-xl font-semibold mb-2">Market Analytics</h2>
-        <p>Coming soon: customer demographics, trending categories, and regional sales insights.</p>
+        <p>
+          Coming soon: customer demographics, trending categories, and regional sales insights.
+        </p>
       </div>
     </div>
   );
 }
-
