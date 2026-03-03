@@ -1,13 +1,32 @@
 "use client";
 
-export default function CategoryMenu({ categories, onSelect }: { categories: string[]; onSelect: (cat: string) => void }) {
+import { useState } from "react";
+
+export default function CategoryMenu({
+  categories,
+  onSelect,
+}: {
+  categories: string[];
+  onSelect: (cat: string) => void;
+}) {
+  const [selected, setSelected] = useState("All");
+
+  const handleSelect = (cat: string) => {
+    setSelected(cat);
+    onSelect(cat);
+  };
+
   return (
-    <div className="flex gap-4 mb-6">
+    <div className="flex flex-wrap gap-3">
       {categories.map((cat) => (
         <button
           key={cat}
-          onClick={() => onSelect(cat)}
-          className="bg-gray-300 text-black px-4 py-2 rounded hover:bg-gray-400"
+          onClick={() => handleSelect(cat)}
+          className={`px-6 py-2.5 rounded-lg font-semibold transition-all duration-300 transform hover:scale-105 ${
+            selected === cat
+              ? "bg-black text-white shadow-lg"
+              : "bg-white border-2 border-gray-300 text-black hover:border-black hover:shadow-md"
+          }`}
         >
           {cat}
         </button>

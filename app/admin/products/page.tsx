@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { collection, getDocs } from "firebase/firestore";
 import { db } from "@/src/lib/firebase";
 
+import NavBar from "../../../components/NavBar";
 import ProductCard from "../../../components/ProductCard";
 import SearchBar from "../../../components/SearchBar";
 import CategoryMenu from "../../../components/CategoryMenu";
@@ -20,37 +21,30 @@ type Product = {
 export default function ProductsPage() {
   const [products, setProducts] = useState<Product[]>([]);
   const [search, setSearch] = useState("");
-  const [selectedCategory, setSelectedCategory] = useState("All");
-  const [cart, setCart] = useState<Record<string, number>>({});
+  const [selectedCategory, setSelectedCategory] = useState<string>("All");
 
   useEffect(() => {
     const fetchProducts = async () => {
-      const snapshot = await getDocs(collection(db, "products"));
-      const items = snapshot.docs.map((doc) => {
-        const data = doc.data() as Omit<Product, "id">;
-        return { ...data, id: doc.id } as Product;
-      });
-      setProducts(items);
+      try {
+        const snapshot = await getDocs(collection(db, "products"));
+        const items: Product[] = snapshot.docs.map((doc) => ({
+          id: doc.id,
+          ...(doc.data() as {
+            name: string;
+            price: number;
+            description?: string;
+            imageUrl?: string;
+            category?: string;
+          }),
+        }));
+        setProducts(items);
+      } catch (error: any) {
+        alert(error.message);
+      }
     };
 
     fetchProducts();
   }, []);
-
-  const addToCart = (id: string) => {
-    setCart((prev) => ({ ...prev, [id]: (prev[id] || 0) + 1 }));
-  };
-
-  const removeFromCart = (id: string) => {
-    setCart((prev) => {
-      const qty = (prev[id] || 0) - 1;
-      if (qty <= 0) {
-        const copy = { ...prev };
-        delete copy[id];
-        return copy;
-      }
-      return { ...prev, [id]: qty };
-    });
-  };
 
   const filteredProducts = products.filter((p) => {
     const matchesSearch = p.name.toLowerCase().includes(search.toLowerCase());
@@ -60,25 +54,44 @@ export default function ProductsPage() {
   });
 
   return (
-    <div className="p-6">
-      <h1 className="text-2xl font-bold mb-6">Products</h1>
+    <div className="min-h-screen bg-[#e6e6fa] text-black p-6">
+      <NavBar />
 
-      <SearchBar value={search} onChange={setSearch} />
+      <h1 className="text-3xl font-bold mb-6 text-center">Products</h1>
 
-      <CategoryMenu
-        categories={["All", "Rings", "Necklaces", "Earrings", "Accessories"]}
-        onSelect={setSelectedCategory}
-      />
+      <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4 mb-6">
+        <SearchBar value={search} onChange={setSearch} />
+        <CategoryMenu
+          categories={["All", "Bags", "Jewelry", "Watches"]}
+          onSelect={setSelectedCategory}
+        />
+      </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mt-6">
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
         {filteredProducts.map((product) => (
-          <ProductCard
+          <div
             key={product.id}
-            product={product}
-            quantity={cart[product.id] || 0}
-            onAdd={() => addToCart(product.id)}
-            onRemove={() => removeFromCart(product.id)}
-          />
+            className="bg-white p-4 rounded shadow-md flex flex-col justify-between"
+          >
+            {product.imageUrl && (
+              <img
+                src={product.imageUrl}
+                alt={product.name}
+                className="w-full h-48 object-cover rounded mb-4"
+              />
+            )}
+            <h2 className="text-xl font-semibold mb-2">{product.name}</h2>
+            <p className="text-gray-700 mb-2">{product.description}</p>
+            <p className="text-lg font-bold mb-4">${product.price}</p>
+            <div className="flex gap-2">
+              <button className="bg-black text-white px-3 py-1 rounded hover:bg-gray-800 transition">
+                Add to Cart +
+              </button>
+              <button className="bg-pink-500 text-white px-3 py-1 rounded hover:bg-pink-400 transition">
+                Remove -
+              </button>
+            </div>
+          </div>
         ))}
       </div>
     </div>

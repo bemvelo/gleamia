@@ -12,11 +12,14 @@ export default function SearchBar({ value, onChange }: Props) {
 
   return (
     <div
-      className={`flex items-center border rounded-full px-4 py-2 max-w-md w-full shadow-sm transition
-      ${focused ? "ring-2 ring-black" : ""}`}
+      className={`flex items-center border-2 rounded-lg px-4 py-3 w-full max-w-md shadow-md transition-all ${
+        focused
+          ? "border-black bg-white shadow-lg scale-105"
+          : "border-gray-300 bg-white hover:border-gray-400"
+      }`}
     >
-      {/* Icon */}
-      <span className="mr-2">🔍</span>
+      {/* Search Icon */}
+      <span className="text-xl mr-3 text-gray-500">🔍</span>
 
       {/* Input */}
       <input
@@ -26,14 +29,14 @@ export default function SearchBar({ value, onChange }: Props) {
         onFocus={() => setFocused(true)}
         onBlur={() => setFocused(false)}
         onChange={(e) => onChange(e.target.value)}
-        className="flex-1 outline-none bg-transparent"
+        className="flex-1 outline-none bg-transparent text-black placeholder-gray-500 font-medium"
       />
 
       {/* Clear button */}
       {value && (
         <button
           onClick={() => onChange("")}
-          className="ml-2 text-gray-500 hover:text-black"
+          className="ml-2 text-gray-400 hover:text-red-500 transition text-lg font-bold"
         >
           ✕
         </button>
