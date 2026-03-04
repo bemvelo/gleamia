@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
-import { supabase } from "@/src/lib/supabase";
+import { supabase } from "../../../lib/supabase";
 
 type Product = {
   id: string;
@@ -71,7 +71,7 @@ export default function CheckoutPage() {
       localStorage.removeItem("cart");
 
       router.push("/users/checkout/success");
-    } catch (err: any) {
+    } catch (err) {
       setError(err.message || "An error occurred");
     }
 

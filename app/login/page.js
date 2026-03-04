@@ -1,14 +1,14 @@
 "use client";
 
 import { useState } from "react";
-import { supabase } from "@/src/lib/supabase";
+import { supabase } from "../../lib/supabase";
 import { useRouter } from "next/navigation";
 
 export default function LoginPage() {
   const router = useRouter();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [role, setRole] = useState<"user" | "admin">("user");
+  const [role, setRole] = useState("user"); // JS version
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
 
@@ -22,7 +22,6 @@ export default function LoginPage() {
     setError("");
 
     try {
-      // Sign in with Supabase
       const { data, error: authError } = await supabase.auth.signInWithPassword({
         email,
         password,
@@ -62,14 +61,15 @@ export default function LoginPage() {
       } else {
         setError("You don't have permission to access this role.");
       }
-    } catch (error: any) {
-      setError(error.message || "Login failed. Please try again.");
+    } catch (err) {
+      // Plain JS, no ": any"
+      setError(err.message || "Login failed. Please try again.");
     } finally {
       setLoading(false);
     }
   };
 
-  const handleKeyPress = (e: React.KeyboardEvent) => {
+  const handleKeyPress = (e) => {
     if (e.key === "Enter") login();
   };
 

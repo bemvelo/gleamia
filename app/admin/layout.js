@@ -1,15 +1,15 @@
-import type { Metadata } from 'next';
-import { generateSEOMetadata, SEO_CONFIG } from '@/lib/seoUtils';
+"use client";
 
-export const metadata: Metadata = generateSEOMetadata({
-  ...SEO_CONFIG.ADMIN,
-  type: 'website',
-});
+import "../../styles/globals.css"; // Import global CSS
+import NavBar from "../../components/NavBar";
+import Footer from "../../components/Footer";
 
-export default function AdminLayout({
-  children,
-}: {
-  children: React.ReactNode;
-}) {
-  return <>{children}</>;
+export default function Layout({ children }) {
+  return (
+    <div className="min-h-screen flex flex-col bg-[var(--accent)] text-[var(--primary)]">
+      <NavBar />
+      <main className="flex-1 container">{children}</main>
+      <Footer />
+    </div>
+  );
 }

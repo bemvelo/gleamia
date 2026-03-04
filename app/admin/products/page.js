@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { supabase } from "@/src/lib/supabase";
+import { supabase } from "../../../lib/supabase";
 
 import NavBar from "../../../components/NavBar";
 import ProductCard from "../../../components/ProductCard";
@@ -37,7 +37,7 @@ export default function ProductsPage() {
         } else {
           setProducts(data || []);
         }
-      } catch (error: any) {
+      } catch (error) {
         console.error("Error:", error.message);
         setProducts([]);
       } finally {

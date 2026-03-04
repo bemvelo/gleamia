@@ -1,16 +1,16 @@
-import { generateSEOMetadata, SEO_CONFIG } from '@/lib/seoUtils.js';
+"use client";
 
-export const metadata = generateSEOMetadata({
-  ...SEO_CONFIG.HOME,
-  type: 'website',
-});
+import "../app/globals.css"; // Import global CSS
+import { ReactNode } from "react";
+import NavBar from "../../components/NavBar";
+import Footer from "../../components/Footer";
 
-/**
- * Home Layout Component
- * @param {Object} props - Component props
- * @param {React.ReactNode} props.children - Page children
- * @returns {JSX.Element} Layout wrapper
- */
-export default function HomeLayout({ children }) {
-  return <>{children}</>;
+export default function Layout({ children }: { children: ReactNode }) {
+  return (
+    <div className="min-h-screen flex flex-col bg-[var(--accent)] text-[var(--primary)]">
+      <NavBar />
+      <main className="flex-1 container">{children}</main>
+      <Footer />
+    </div>
+  );
 }

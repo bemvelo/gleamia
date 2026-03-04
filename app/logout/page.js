@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { supabase } from "@/src/lib/supabase";
+import { supabase } from "../../lib/supabase";
 import { useRouter } from "next/navigation";
 
 export default function LogoutPage() {
@@ -20,7 +20,7 @@ export default function LogoutPage() {
           // Redirect to login after successful logout
           router.push("/login");
         }
-      } catch (err: any) {
+      } catch (err) {
         setError(err.message || "Logout failed");
       } finally {
         setLoading(false);

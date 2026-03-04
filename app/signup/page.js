@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { supabase } from "@/src/lib/supabase";
+import { supabase } from "../../lib/supabase";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 
@@ -73,14 +73,14 @@ export default function SignupPage() {
       } else {
         router.push("/users/products");
       }
-    } catch (error: any) {
+    } catch (error) {
       setError(error.message || "Sign up failed. Please try again.");
     } finally {
       setLoading(false);
     }
   };
 
-  const handleKeyPress = (e: React.KeyboardEvent) => {
+  const handleKeyPress = (e) => {
     if (e.key === "Enter") signup();
   };
 

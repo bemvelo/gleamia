@@ -1,7 +1,1 @@
-import type { NextConfig } from "next";
-
-const nextConfig: NextConfig = {
-  /* config options here */
-};
-
-export default nextConfig;
+import type { NextConfig } from "next"; const nextConfig: NextConfig = { experimental: { turbo: { resolveAlias: { "@/lib": "./lib", "@/components": "./components", "@/app": "./app", "@/src": "./src" } } } }; export default nextConfig;

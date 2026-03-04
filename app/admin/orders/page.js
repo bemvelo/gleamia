@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { supabase } from "@/src/lib/supabase";
+import { supabase } from "../../../lib/supabase";
 
 type Order = {
   id: string;
@@ -55,7 +55,7 @@ export default function AdminOrdersPage() {
           prev.map((o) => (o.id === orderId ? { ...o, status: newStatus } : o))
         );
       }
-    } catch (error: any) {
+    } catch (error) {
       alert("Error updating order status: " + error.message);
     }
   };
