@@ -1,83 +1,129 @@
 "use client";
-
 import Link from "next/link";
+import { useEffect, useState } from "react";
+import { supabase } from "../../lib/supabase";
+import { useRouter } from "next/navigation";
+
+const ADMIN_CARDS = [
+  { title: "Analytics", href: "/admin/analytics", emoji: "📊", desc: "Sales, visits & market insights", color: "#7c3aed" },
+  { title: "Products", href: "/admin/products", emoji: "💍", desc: "Add, edit, delete & manage inventory", color: "#6c3fc5" },
+  { title: "Users", href: "/admin/users", emoji: "👥", desc: "View users, assign roles & manage accounts", color: "#9333ea" },
+  { title: "Orders", href: "/admin/orders", emoji: "📦", desc: "View orders, update status & track fulfillment", color: "#7e22ce" },
+  { title: "Settings", href: "/admin/settings", emoji: "⚙️", desc: "Store details, payment & shipping options", color: "#5b21b6" },
+];
 
 export default function AdminPage() {
-  return (
-    <div className="min-h-screen bg-[#f5f5dc] text-black p-10">
-      <h1 className="text-3xl font-bold mb-8">Admin Dashboard</h1>
+  const router = useRouter();
+  const [stats, setStats] = useState({ products: 0, orders: 0, users: 0, revenue: 0 });
+  const [loading, setLoading] = useState(true);
+  const [adminEmail, setAdminEmail] = useState("");
 
-      {/* Quick Stats */}
-      <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
-        <div className="p-4 bg-white rounded shadow">
-          <h2 className="text-lg font-semibold">Products</h2>
-          <p>120</p>
-        </div>
-        <div className="p-4 bg-white rounded shadow">
-          <h2 className="text-lg font-semibold">Orders</h2>
-          <p>45</p>
-        </div>
-        <div className="p-4 bg-white rounded shadow">
-          <h2 className="text-lg font-semibold">Users</h2>
-          <p>300</p>
-        </div>
-        <div className="p-4 bg-white rounded shadow">
-          <h2 className="text-lg font-semibold">Visits Today</h2>
-          <p>1,200</p>
+  useEffect(() => {
+    const init = async () => {
+      const { data: { session } } = await supabase.auth.getSession();
+      if (!session?.user) { router.push("/login"); return; }
+      setAdminEmail(session.user.email || "");
+
+      const [products, orders, users] = await Promise.all([
+        supabase.from("products").select("id", { count: "exact", head: true }),
+        supabase.from("orders").select("id,total", { count: "exact" }),
+        supabase.from("users").select("id", { count: "exact", head: true }),
+      ]);
+
+      const revenue = (orders.data || []).reduce((sum, o) => sum + (Number(o.total) || 0), 0);
+
+      setStats({
+        products: products.count || 0,
+        orders: orders.count || 0,
+        users: users.count || 0,
+        revenue,
+      });
+      setLoading(false);
+    };
+    init();
+  }, [router]);
+
+  const STAT_CARDS = [
+    { label: "Products", value: stats.products, emoji: "💍", color: "#6c3fc5", bg: "rgba(108,63,197,0.08)" },
+    { label: "Orders", value: stats.orders, emoji: "📦", color: "#9333ea", bg: "rgba(147,51,234,0.08)" },
+    { label: "Users", value: stats.users, emoji: "👥", color: "#7c3aed", bg: "rgba(124,58,237,0.08)" },
+    { label: "Revenue", value: `$${stats.revenue.toFixed(2)}`, emoji: "💰", color: "#10b981", bg: "rgba(16,185,129,0.08)" },
+  ];
+
+  return (
+    <div style={{ minHeight: "100vh", background: "linear-gradient(160deg, #f0ebf8 0%, #e8dff5 100%)", fontFamily: "'Segoe UI', Tahoma, Geneva, Verdana, sans-serif", color: "#1a1a2e" }}>
+
+      {/* Hero */}
+      <div style={{ background: "linear-gradient(135deg, #4e2d96 0%, #6c3fc5 100%)", padding: "48px 32px 56px", position: "relative", overflow: "hidden" }}>
+        <div style={{ position: "absolute", top: "-80px", right: "-60px", width: "300px", height: "300px", borderRadius: "50%", background: "rgba(255,255,255,0.04)" }} />
+        <div style={{ position: "absolute", bottom: "-60px", left: "5%", width: "200px", height: "200px", borderRadius: "50%", background: "rgba(255,107,157,0.08)" }} />
+        <div style={{ maxWidth: "1200px", margin: "0 auto", position: "relative" }}>
+          <p style={{ fontSize: "11px", letterSpacing: "4px", color: "#c4a8f0", textTransform: "uppercase", fontWeight: "600", marginBottom: "10px" }}>Gleamia</p>
+          <h1 style={{ fontSize: "clamp(26px,4vw,42px)", fontFamily: "Georgia,serif", fontWeight: "300", color: "#fff", margin: "0 0 8px", letterSpacing: "2px" }}>⚙️ Admin Dashboard</h1>
+          <p style={{ color: "#c4a8f0", fontSize: "14px" }}>Welcome back, <strong style={{ color: "#fff" }}>{adminEmail}</strong></p>
         </div>
       </div>
 
-      {/* Main Management Cards */}
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-        {/* Analytics */}
-        <Link
-          href="/admin/analytics"
-          className="section-male p-6 rounded shadow flex flex-col items-center"
-        >
-          <img src="/icons/analytics.png" alt="Analytics" className="w-16 h-16 mb-4" />
-          <h2 className="text-xl font-semibold mb-2">Analytics</h2>
-          <p>View product sales, site visits, and market insights.</p>
-        </Link>
+      <div style={{ maxWidth: "1200px", margin: "-32px auto 0", padding: "0 32px 48px" }}>
 
-        {/* Product Management */}
-        <Link
-          href="/admin/products"
-          className="section-male p-6 rounded shadow flex flex-col items-center"
-        >
-          <img src="/icons/products.png" alt="Products" className="w-16 h-16 mb-4" />
-          <h2 className="text-xl font-semibold mb-2">Products</h2>
-          <p>Add, edit, delete products, upload images, set prices and categories.</p>
-        </Link>
+        {/* Stat cards */}
+        <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(200px, 1fr))", gap: "16px", marginBottom: "36px" }}>
+          {STAT_CARDS.map(stat => (
+            <div key={stat.label} style={{ background: "#fff", borderRadius: "16px", padding: "22px 20px", border: "1px solid #e4d8f8", boxShadow: "0 2px 12px rgba(108,63,197,0.08)", display: "flex", alignItems: "center", gap: "16px" }}>
+              <div style={{ width: "52px", height: "52px", borderRadius: "14px", background: stat.bg, display: "flex", alignItems: "center", justifyContent: "center", fontSize: "26px", flexShrink: 0 }}>
+                {stat.emoji}
+              </div>
+              <div>
+                <p style={{ fontSize: "12px", color: "#6b6b8a", fontWeight: "600", marginBottom: "4px", textTransform: "uppercase", letterSpacing: "0.5px" }}>{stat.label}</p>
+                <p style={{ fontSize: "24px", fontWeight: "700", color: stat.color, lineHeight: 1 }}>
+                  {loading ? "—" : stat.value}
+                </p>
+              </div>
+            </div>
+          ))}
+        </div>
 
-        {/* User Management */}
-        <Link
-          href="/admin/users"
-          className="section-male p-6 rounded shadow flex flex-col items-center"
-        >
-          <img src="/icons/users.png" alt="Users" className="w-16 h-16 mb-4" />
-          <h2 className="text-xl font-semibold mb-2">Users</h2>
-          <p>View registered users, assign roles, manage accounts.</p>
-        </Link>
+        {/* Section title */}
+        <h2 style={{ fontSize: "16px", fontWeight: "700", color: "#1a1a2e", marginBottom: "18px", letterSpacing: "0.5px" }}>Management</h2>
 
-        {/* Order Management */}
-        <Link
-          href="/admin/orders"
-          className="section-male p-6 rounded shadow flex flex-col items-center"
-        >
-          <img src="/icons/orders.png" alt="Orders" className="w-16 h-16 mb-4" />
-          <h2 className="text-xl font-semibold mb-2">Orders</h2>
-          <p>View customer orders, update status, and track fulfillment.</p>
-        </Link>
+        {/* Admin nav cards */}
+        <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(220px, 1fr))", gap: "16px" }}>
+          {ADMIN_CARDS.map(card => (
+            <Link key={card.title} href={card.href} style={{ textDecoration: "none" }}>
+              <div style={{ background: "#fff", borderRadius: "16px", padding: "28px 22px", border: "1px solid #e4d8f8", boxShadow: "0 2px 8px rgba(108,63,197,0.06)", cursor: "pointer", transition: "all 0.22s", height: "100%" }}
+                onMouseEnter={e => { e.currentTarget.style.background = card.color; e.currentTarget.style.transform = "translateY(-4px)"; e.currentTarget.style.boxShadow = "0 12px 28px rgba(108,63,197,0.25)"; e.currentTarget.querySelectorAll("[data-title]").forEach(el => el.style.color = "#fff"); e.currentTarget.querySelectorAll("[data-desc]").forEach(el => el.style.color = "rgba(255,255,255,0.75)"); }}
+                onMouseLeave={e => { e.currentTarget.style.background = "#fff"; e.currentTarget.style.transform = "none"; e.currentTarget.style.boxShadow = "0 2px 8px rgba(108,63,197,0.06)"; e.currentTarget.querySelectorAll("[data-title]").forEach(el => el.style.color = ""); e.currentTarget.querySelectorAll("[data-desc]").forEach(el => el.style.color = ""); }}>
+                <div style={{ fontSize: "38px", marginBottom: "14px" }}>{card.emoji}</div>
+                <div data-title style={{ fontSize: "16px", fontWeight: "700", color: "#1a1a2e", marginBottom: "6px" }}>{card.title}</div>
+                <div data-desc style={{ fontSize: "13px", color: "#6b6b8a", lineHeight: "1.5" }}>{card.desc}</div>
+                <div style={{ marginTop: "16px", fontSize: "13px", fontWeight: "700", color: card.color }}>
+                  Manage →
+                </div>
+              </div>
+            </Link>
+          ))}
+        </div>
 
-        {/* Settings */}
-        <Link
-          href="/admin/settings"
-          className="section-male p-6 rounded shadow flex flex-col items-center"
-        >
-          <img src="/icons/settings.png" alt="Settings" className="w-16 h-16 mb-4" />
-          <h2 className="text-xl font-semibold mb-2">Settings</h2>
-          <p>Configure store details, payment, and shipping options.</p>
-        </Link>
+        {/* Quick actions */}
+        <div style={{ marginTop: "32px", background: "#fff", borderRadius: "16px", padding: "24px 28px", border: "1px solid #e4d8f8", boxShadow: "0 2px 8px rgba(108,63,197,0.06)" }}>
+          <h3 style={{ fontSize: "15px", fontWeight: "700", marginBottom: "16px", color: "#1a1a2e" }}>⚡ Quick Actions</h3>
+          <div style={{ display: "flex", gap: "12px", flexWrap: "wrap" }}>
+            {[
+              { label: "Add Product", href: "/admin/products/new", emoji: "➕" },
+              { label: "View Orders", href: "/admin/orders", emoji: "📋" },
+              { label: "View Users", href: "/admin/users", emoji: "👤" },
+              { label: "Store Front", href: "/", emoji: "🏪" },
+            ].map(action => (
+              <Link key={action.label} href={action.href}
+                style={{ display: "inline-flex", alignItems: "center", gap: "8px", background: "rgba(108,63,197,0.07)", color: "#6c3fc5", textDecoration: "none", padding: "9px 18px", borderRadius: "10px", fontSize: "13px", fontWeight: "700", border: "1px solid rgba(108,63,197,0.15)", transition: "all 0.18s" }}
+                onMouseEnter={e => { e.currentTarget.style.background = "#6c3fc5"; e.currentTarget.style.color = "#fff"; }}
+                onMouseLeave={e => { e.currentTarget.style.background = "rgba(108,63,197,0.07)"; e.currentTarget.style.color = "#6c3fc5"; }}>
+                <span>{action.emoji}</span> {action.label}
+              </Link>
+            ))}
+          </div>
+        </div>
+
       </div>
     </div>
   );

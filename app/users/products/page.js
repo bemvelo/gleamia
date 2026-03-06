@@ -1,183 +1,234 @@
 "use client";
-
 import { useEffect, useState } from "react";
 import { supabase } from "../../../lib/supabase";
 import Link from "next/link";
+import Image from "next/image";
 
-import ProductCard from "../../../components/ProductCard";
-import SearchBar from "../../../components/SearchBar";
-import CategoryMenu from "../../../components/CategoryMenu";
+const CATEGORIES = ["All", "Rings", "Necklaces", "Earrings", "Bracelets", "Anklets", "Sets"];
 
-type Product = {
-  id: string;
-  name: string;
-  price: number;
-  description?: string;
-  image_url?: string;
-  category?: string;
+const EMOJI_MAP = {
+  Rings: "💍", Necklaces: "📿", Earrings: "✨", Bracelets: "📿", Anklets: "⭐", Sets: "💎", default: "💎"
 };
 
-type SortOption = "featured" | "price-low" | "price-high" | "newest";
-
 export default function ProductsPage() {
-  const [products, setProducts] = useState<Product[]>([]);
+  const [products, setProducts] = useState([]);
   const [search, setSearch] = useState("");
   const [selectedCategory, setSelectedCategory] = useState("All");
-  const [sortBy, setSortBy] = useState<SortOption>("featured");
-  const [cart, setCart] = useState<Record<string, number>>({});
+  const [sortBy, setSortBy] = useState("featured");
+  const [cart, setCart] = useState({});
   const [loading, setLoading] = useState(true);
+  const [wishlist, setWishlist] = useState({});
+  const [imgErrors, setImgErrors] = useState({});
 
   useEffect(() => {
     const fetchProducts = async () => {
       try {
-        const { data, error } = await supabase
-          .from("products")
-          .select("*");
-
-        if (error) {
-          console.error("Error fetching products:", error);
-          setProducts([]);
-        } else {
-          setProducts(data || []);
-        }
-      } catch (error) {
-        console.error("Error fetching products:", error);
-      } finally {
-        setLoading(false);
-      }
+        const { data, error } = await supabase.from("products").select("*");
+        if (error) { console.error("Error:", error); setProducts([]); }
+        else setProducts(data || []);
+      } catch (e) { console.error(e); }
+      finally { setLoading(false); }
     };
-
     fetchProducts();
   }, []);
 
-  const addToCart = (id: string) => {
-    setCart((prev) => ({ ...prev, [id]: (prev[id] || 0) + 1 }));
-  };
-
-  const removeFromCart = (id: string) => {
-    setCart((prev) => {
-      const qty = (prev[id] || 0) - 1;
-      if (qty <= 0) {
-        const copy = { ...prev };
-        delete copy[id];
-        return copy;
-      }
-      return { ...prev, [id]: qty };
-    });
-  };
-
-  let filteredProducts = products.filter((p) => {
-    const matchesSearch = p.name.toLowerCase().includes(search.toLowerCase());
-    const matchesCategory =
-      selectedCategory === "All" || p.category === selectedCategory;
-    return matchesSearch && matchesCategory;
+  const addToCart = (id) => setCart(prev => ({ ...prev, [id]: (prev[id] || 0) + 1 }));
+  const removeFromCart = (id) => setCart(prev => {
+    const qty = (prev[id] || 0) - 1;
+    if (qty <= 0) { const c = { ...prev }; delete c[id]; return c; }
+    return { ...prev, [id]: qty };
   });
+  const toggleWishlist = (id) => setWishlist(prev => ({ ...prev, [id]: !prev[id] }));
+  const cartTotal = Object.values(cart).reduce((a, b) => a + b, 0);
 
-  // Apply sorting
-  if (sortBy === "price-low") {
-    filteredProducts = [...filteredProducts].sort((a, b) => a.price - b.price);
-  } else if (sortBy === "price-high") {
-    filteredProducts = [...filteredProducts].sort((a, b) => b.price - a.price);
-  } else if (sortBy === "newest") {
-    // Assuming newer items are at the end of the array
-    filteredProducts = [...filteredProducts].reverse();
-  }
+  let filtered = products.filter(p => {
+    const matchSearch = p.name?.toLowerCase().includes(search.toLowerCase());
+    const matchCat = selectedCategory === "All" || p.category === selectedCategory;
+    return matchSearch && matchCat;
+  });
+  if (sortBy === "price-low") filtered = [...filtered].sort((a, b) => a.price - b.price);
+  else if (sortBy === "price-high") filtered = [...filtered].sort((a, b) => b.price - a.price);
+  else if (sortBy === "newest") filtered = [...filtered].reverse();
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-[#e8dff5] to-[#f0ebf8]">
-      {/* Header */}
-      <div className="bg-gradient-to-r from-[#d4c5e8] to-[#e0d5f0] px-6 py-16 mb-12 rounded-2xl border border-purple-200 shadow-lg">
-        <div className="max-w-6xl mx-auto">
-          <h1 className="text-5xl md:text-6xl font-bold text-black mb-3">✨ Our Collection</h1>
-          <p className="text-lg text-gray-700">
-            Discover {products.length} stunning pieces of jewelry
-          </p>
+    <div style={{ minHeight: "100vh", background: "linear-gradient(160deg, #f0ebf8 0%, #e8dff5 100%)", fontFamily: "'Segoe UI', Tahoma, Geneva, Verdana, sans-serif", color: "#1a1a2e" }}>
+
+      {/* Hero */}
+      <div style={{ background: "linear-gradient(135deg, #4e2d96 0%, #6c3fc5 100%)", padding: "52px 32px", position: "relative", overflow: "hidden" }}>
+        <div style={{ position: "absolute", top: "-80px", right: "-80px", width: "300px", height: "300px", borderRadius: "50%", background: "rgba(255,255,255,0.04)" }} />
+        <div style={{ position: "absolute", bottom: "-60px", left: "10%", width: "200px", height: "200px", borderRadius: "50%", background: "rgba(255,107,157,0.08)" }} />
+        <div style={{ maxWidth: "1400px", margin: "0 auto", position: "relative" }}>
+          <p style={{ fontSize: "11px", letterSpacing: "4px", color: "#c4a8f0", textTransform: "uppercase", fontWeight: "600", marginBottom: "10px" }}>Gleamia Store</p>
+          <h1 style={{ fontSize: "clamp(28px,5vw,52px)", fontFamily: "Georgia,serif", fontWeight: "300", letterSpacing: "2px", color: "#fff", margin: "0 0 10px" }}>✨ Our Collection</h1>
+          <p style={{ color: "#c4a8f0", fontSize: "15px" }}>Discover <strong style={{ color: "#fff" }}>{products.length}</strong> stunning pieces of handcrafted jewelry</p>
         </div>
       </div>
 
-      {/* Main Content */}
-      <div className="max-w-7xl mx-auto px-6 py-12">
-        {/* Filters & Search */}
-        <div className="mb-10 bg-white p-6 rounded-xl border border-gray-200 shadow-md">
-          <SearchBar value={search} onChange={setSearch} />
+      <div style={{ maxWidth: "1400px", margin: "0 auto", padding: "32px" }}>
 
-          {/* Categories & Sorting */}
-          <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-6 mt-6">
-            <div className="flex-1">
-              <CategoryMenu
-                categories={["All", "Rings", "Necklaces", "Earrings", "Accessories"]}
-                onSelect={setSelectedCategory}
-              />
+        {/* Filter bar */}
+        <div style={{ background: "#fff", borderRadius: "16px", padding: "24px 28px", marginBottom: "28px", border: "1px solid #e4d8f8", boxShadow: "0 2px 16px rgba(108,63,197,0.08)" }}>
+
+          {/* Search */}
+          <div style={{ position: "relative", marginBottom: "20px" }}>
+            <svg style={{ position: "absolute", left: "14px", top: "50%", transform: "translateY(-50%)", pointerEvents: "none" }} width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#9b72e0" strokeWidth="2.5"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+            <input
+              type="text" placeholder="Search for rings, necklaces, earrings..." value={search}
+              onChange={e => setSearch(e.target.value)}
+              style={{ width: "100%", padding: "13px 16px 13px 46px", border: "2px solid #d4c8f0", borderRadius: "12px", fontSize: "14px", color: "#1a1a2e", outline: "none", boxSizing: "border-box", fontFamily: "inherit", background: "#faf8fe" }}
+              onFocus={e => e.target.style.borderColor = "#6c3fc5"}
+              onBlur={e => e.target.style.borderColor = "#d4c8f0"}
+            />
+          </div>
+
+          {/* Categories + Sort */}
+          <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", flexWrap: "wrap", gap: "14px" }}>
+            <div style={{ display: "flex", gap: "8px", flexWrap: "wrap" }}>
+              {CATEGORIES.map(cat => (
+                <button key={cat} onClick={() => setSelectedCategory(cat)}
+                  style={{ padding: "7px 18px", borderRadius: "20px", fontSize: "13px", fontWeight: "600", cursor: "pointer", border: "2px solid #6c3fc5", transition: "all 0.18s", fontFamily: "inherit",
+                    background: selectedCategory === cat ? "#6c3fc5" : "transparent",
+                    color: selectedCategory === cat ? "#fff" : "#6c3fc5" }}
+                  onMouseEnter={e => { if (selectedCategory !== cat) e.currentTarget.style.background = "rgba(108,63,197,0.08)"; }}
+                  onMouseLeave={e => { if (selectedCategory !== cat) e.currentTarget.style.background = "transparent"; }}>
+                  {cat}
+                </button>
+              ))}
             </div>
-
-            {/* Sort Dropdown */}
-            <select
-              value={sortBy}
-              onChange={(e) => setSortBy(e.target.value as SortOption)}
-              className="border-2 border-gray-300 px-4 py-2.5 rounded-lg focus:border-black focus:outline-none bg-white text-black font-semibold hover:border-black transition"
-            >
-              <option value="featured">Featured</option>
-              <option value="price-low">Price: Low to High</option>
-              <option value="price-high">Price: High to Low</option>
-              <option value="newest">Newest</option>
+            <select value={sortBy} onChange={e => setSortBy(e.target.value)}
+              style={{ padding: "9px 16px", border: "2px solid #d4c8f0", borderRadius: "10px", fontSize: "13px", color: "#1a1a2e", background: "#fff", outline: "none", fontFamily: "inherit", fontWeight: "600", cursor: "pointer" }}
+              onFocus={e => e.target.style.borderColor = "#6c3fc5"}
+              onBlur={e => e.target.style.borderColor = "#d4c8f0"}>
+              <option value="featured">⭐ Featured</option>
+              <option value="price-low">💰 Price: Low to High</option>
+              <option value="price-high">💎 Price: High to Low</option>
+              <option value="newest">🆕 Newest</option>
             </select>
           </div>
 
-          {/* Results Count */}
-          <p className="text-sm text-gray-600 mt-4 font-medium">
-            Showing <span className="font-bold text-black">{filteredProducts.length}</span> product{filteredProducts.length !== 1 ? "s" : ""}
-            {cart && Object.values(cart).reduce((a, b) => a + b, 0) > 0 && (
-              <span className="ml-4 text-black font-bold bg-green-100 px-3 py-1 rounded-full inline-block">
-                Cart ({Object.values(cart).reduce((a, b) => a + b, 0)} items)
+          {/* Results row */}
+          <div style={{ marginTop: "16px", display: "flex", alignItems: "center", gap: "12px", flexWrap: "wrap" }}>
+            <p style={{ fontSize: "13px", color: "#6b6b8a" }}>
+              Showing <strong style={{ color: "#6c3fc5" }}>{filtered.length}</strong> product{filtered.length !== 1 ? "s" : ""}
+              {selectedCategory !== "All" && <span> in <strong style={{ color: "#6c3fc5" }}>{selectedCategory}</strong></span>}
+            </p>
+            {cartTotal > 0 && (
+              <span style={{ background: "rgba(108,63,197,0.1)", color: "#6c3fc5", fontSize: "12px", fontWeight: "700", padding: "4px 14px", borderRadius: "20px" }}>
+                🛒 {cartTotal} item{cartTotal !== 1 ? "s" : ""} in cart
               </span>
             )}
-          </p>
+          </div>
         </div>
 
-        {/* Products Grid */}
+        {/* Grid */}
         {loading ? (
-          <div className="text-center py-12">
-            <p className="text-gray-600 text-lg">Loading products...</p>
+          <div style={{ textAlign: "center", padding: "80px 0" }}>
+            <div style={{ fontSize: "48px", marginBottom: "16px", animation: "pulse 1.5s infinite" }}>💍</div>
+            <p style={{ color: "#6b6b8a", fontSize: "16px" }}>Loading your collection...</p>
           </div>
-        ) : filteredProducts.length === 0 ? (
-          <div className="text-center py-16">
-            <p className="text-gray-600 text-lg mb-4">No products found</p>
-            <button
-              onClick={() => {
-                setSearch("");
-                setSelectedCategory("All");
-              }}
-              className="bg-black text-white px-6 py-2 rounded-lg hover:bg-gray-800 transition"
-            >
+        ) : filtered.length === 0 ? (
+          <div style={{ textAlign: "center", padding: "80px 0" }}>
+            <div style={{ fontSize: "52px", marginBottom: "16px" }}>🔍</div>
+            <p style={{ color: "#1a1a2e", fontSize: "18px", fontWeight: "600", marginBottom: "8px" }}>No products found</p>
+            <p style={{ color: "#6b6b8a", fontSize: "14px", marginBottom: "24px" }}>Try a different search or category</p>
+            <button onClick={() => { setSearch(""); setSelectedCategory("All"); }}
+              style={{ background: "linear-gradient(135deg,#6c3fc5,#9b72e0)", color: "#fff", border: "none", padding: "12px 32px", borderRadius: "10px", fontSize: "14px", fontWeight: "700", cursor: "pointer", fontFamily: "inherit", boxShadow: "0 4px 12px rgba(108,63,197,0.3)" }}>
               Reset Filters
             </button>
           </div>
         ) : (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {filteredProducts.map((product) => (
-              <ProductCard
-                key={product.id}
-                product={product}
-                quantity={cart[product.id] || 0}
-                onAdd={() => addToCart(product.id)}
-                onRemove={() => removeFromCart(product.id)}
-              />
+          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(270px, 1fr))", gap: "22px" }}>
+            {filtered.map(product => (
+              <div key={product.id}
+                style={{ background: "#fff", borderRadius: "16px", overflow: "hidden", border: "1px solid #e4d8f8", boxShadow: "0 2px 8px rgba(108,63,197,0.06)", transition: "all 0.22s", display: "flex", flexDirection: "column" }}
+                onMouseEnter={e => { e.currentTarget.style.boxShadow = "0 10px 28px rgba(108,63,197,0.18)"; e.currentTarget.style.transform = "translateY(-4px)"; }}
+                onMouseLeave={e => { e.currentTarget.style.boxShadow = "0 2px 8px rgba(108,63,197,0.06)"; e.currentTarget.style.transform = "none"; }}>
+
+                {/* Image area */}
+                <div style={{ position: "relative", height: "240px", background: "linear-gradient(135deg, #f5f0ff, #ede5f8)", overflow: "hidden", flexShrink: 0 }}>
+                  {product.image_url && !imgErrors[product.id] ? (
+                    <img
+                      src={product.image_url}
+                      alt={product.name}
+                      style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }}
+                      onError={() => setImgErrors(prev => ({ ...prev, [product.id]: true }))}
+                    />
+                  ) : (
+                    <div style={{ width: "100%", height: "100%", display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", gap: "8px" }}>
+                      <span style={{ fontSize: "80px" }}>{EMOJI_MAP[product.category] || EMOJI_MAP.default}</span>
+                      <span style={{ fontSize: "12px", color: "#9b72e0", fontWeight: "600" }}>No image</span>
+                    </div>
+                  )}
+
+                  {/* Category badge */}
+                  {product.category && (
+                    <span style={{ position: "absolute", top: "12px", left: "12px", background: "rgba(78,45,150,0.85)", color: "#fff", fontSize: "11px", fontWeight: "700", padding: "4px 12px", borderRadius: "20px", backdropFilter: "blur(4px)", letterSpacing: "0.3px" }}>
+                      {product.category}
+                    </span>
+                  )}
+
+                  {/* Wishlist */}
+                  <button onClick={() => toggleWishlist(product.id)}
+                    style={{ position: "absolute", top: "10px", right: "10px", background: "rgba(255,255,255,0.95)", border: "none", width: "36px", height: "36px", borderRadius: "50%", cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center", fontSize: "18px", boxShadow: "0 2px 8px rgba(0,0,0,0.12)", transition: "transform 0.2s" }}
+                    onMouseEnter={e => e.currentTarget.style.transform = "scale(1.15)"}
+                    onMouseLeave={e => e.currentTarget.style.transform = "scale(1)"}>
+                    {wishlist[product.id] ? "❤️" : "🤍"}
+                  </button>
+                </div>
+
+                {/* Info */}
+                <div style={{ padding: "18px 18px 20px", display: "flex", flexDirection: "column", flex: 1 }}>
+                  <h3 style={{ fontSize: "15px", fontWeight: "700", marginBottom: "6px", color: "#1a1a2e", whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>{product.name}</h3>
+
+                  {product.description && (
+                    <p style={{ fontSize: "12px", color: "#6b6b8a", marginBottom: "14px", lineHeight: "1.5", display: "-webkit-box", WebkitLineClamp: 2, WebkitBoxOrient: "vertical", overflow: "hidden", flex: 1 }}>{product.description}</p>
+                  )}
+
+                  <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: "16px", marginTop: "auto" }}>
+                    <span style={{ fontSize: "22px", fontWeight: "700", color: "#6c3fc5" }}>${Number(product.price).toFixed(2)}</span>
+                    {product.stock !== undefined && product.stock <= 5 && product.stock > 0 && (
+                      <span style={{ fontSize: "11px", color: "#ff6b9d", fontWeight: "700", background: "rgba(255,107,157,0.1)", padding: "3px 10px", borderRadius: "20px" }}>Only {product.stock} left!</span>
+                    )}
+                  </div>
+
+                  {/* Cart controls */}
+                  {cart[product.id] ? (
+                    <div style={{ display: "flex", alignItems: "center", border: "2px solid #6c3fc5", borderRadius: "10px", overflow: "hidden" }}>
+                      <button onClick={() => removeFromCart(product.id)}
+                        style={{ flex: 1, padding: "10px", background: "transparent", border: "none", color: "#6c3fc5", fontSize: "22px", fontWeight: "700", cursor: "pointer", lineHeight: 1, fontFamily: "inherit", transition: "background 0.15s" }}
+                        onMouseEnter={e => e.currentTarget.style.background = "rgba(108,63,197,0.08)"}
+                        onMouseLeave={e => e.currentTarget.style.background = "transparent"}>−</button>
+                      <span style={{ flex: 1, textAlign: "center", fontWeight: "700", color: "#6c3fc5", fontSize: "16px" }}>{cart[product.id]}</span>
+                      <button onClick={() => addToCart(product.id)}
+                        style={{ flex: 1, padding: "10px", background: "#6c3fc5", border: "none", color: "#fff", fontSize: "22px", fontWeight: "700", cursor: "pointer", lineHeight: 1, fontFamily: "inherit", transition: "background 0.15s" }}
+                        onMouseEnter={e => e.currentTarget.style.background = "#4e2d96"}
+                        onMouseLeave={e => e.currentTarget.style.background = "#6c3fc5"}>+</button>
+                    </div>
+                  ) : (
+                    <button onClick={() => addToCart(product.id)}
+                      style={{ width: "100%", background: "linear-gradient(135deg, #6c3fc5, #9b72e0)", color: "#fff", border: "none", padding: "12px", borderRadius: "10px", fontSize: "13px", fontWeight: "700", cursor: "pointer", fontFamily: "inherit", boxShadow: "0 4px 12px rgba(108,63,197,0.3)", letterSpacing: "0.5px", transition: "opacity 0.2s" }}
+                      onMouseEnter={e => e.currentTarget.style.opacity = "0.9"}
+                      onMouseLeave={e => e.currentTarget.style.opacity = "1"}>
+                      🛒 Add to Cart
+                    </button>
+                  )}
+                </div>
+              </div>
             ))}
           </div>
         )}
-
-        {/* Floating Cart Button */}
-        {Object.values(cart).reduce((a, b) => a + b, 0) > 0 && (
-          <div className="fixed bottom-8 right-8">
-            <Link
-              href="/users/cart"
-              className="bg-black text-white px-6 py-3 rounded-full font-semibold hover:bg-gray-800 transition shadow-lg flex items-center gap-2"
-            >
-              🛒 View Cart ({Object.values(cart).reduce((a, b) => a + b, 0)})
-            </Link>
-          </div>
-        )}
       </div>
+
+      {/* Floating cart */}
+      {cartTotal > 0 && (
+        <div style={{ position: "fixed", bottom: "28px", right: "28px", zIndex: 999 }}>
+          <Link href="/users/cart"
+            style={{ background: "linear-gradient(135deg, #6c3fc5, #9b72e0)", color: "#fff", textDecoration: "none", padding: "14px 28px", borderRadius: "30px", fontWeight: "700", fontSize: "14px", display: "flex", alignItems: "center", gap: "10px", boxShadow: "0 8px 28px rgba(108,63,197,0.45)", letterSpacing: "0.3px" }}>
+            🛒 View Cart
+            <span style={{ background: "#ff6b9d", borderRadius: "20px", padding: "2px 10px", fontSize: "13px" }}>{cartTotal}</span>
+          </Link>
+        </div>
+      )}
     </div>
   );
 }

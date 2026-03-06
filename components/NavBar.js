@@ -1,5 +1,4 @@
 "use client";
-
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import { supabase } from "../lib/supabase";
@@ -9,34 +8,21 @@ export default function NavBar() {
   const [role, setRole] = useState(null);
   const [loading, setLoading] = useState(true);
   const [menuOpen, setMenuOpen] = useState(false);
+  const [search, setSearch] = useState("");
 
   useEffect(() => {
     const { data: { subscription } } = supabase.auth.onAuthStateChange(async (event, session) => {
       if (session?.user) {
         setUser(session.user);
-        
-        // Get user role from database
-        const { data, error } = await supabase
-          .from("users")
-          .select("role")
-          .eq("id", session.user.id)
-          .single();
-        
-        if (data && !error) {
-          setRole(data.role || "user");
-        } else {
-          setRole("user");
-        }
+        const { data, error } = await supabase.from("users").select("role").eq("id", session.user.id).single();
+        setRole(data && !error ? data.role || "user" : "user");
       } else {
         setUser(null);
         setRole(null);
       }
       setLoading(false);
     });
-
-    return () => {
-      subscription?.unsubscribe();
-    };
+    return () => subscription?.unsubscribe();
   }, []);
 
   const handleLogout = async () => {
@@ -46,141 +32,118 @@ export default function NavBar() {
   };
 
   return (
-    <nav className="bg-gradient-to-r from-[#e8dff5] to-[#f0ebf8] shadow-lg sticky top-0 z-50 border-b border-purple-200">
-      <div className="max-w-6xl mx-auto px-4 py-4 flex justify-between items-center">
-        {/* Logo */}
-        <Link href="/" className="text-2xl font-bold text-black hover:text-gray-700 transition">
-          ✨
-        </Link>
+    <header style={{ position: "sticky", top: 0, zIndex: 1000, fontFamily: "'Segoe UI', Tahoma, Geneva, Verdana, sans-serif" }}>
 
-        {/* Desktop Menu */}
-        <div className="hidden md:flex items-center gap-8">
-          <Link href="/" className="text-black hover:text-gray-700 transition font-medium">
-            Home
+      {/* Promo bar */}
+      <div style={{ background: "#6c3fc5", color: "#fff", textAlign: "center", padding: "7px 16px", fontSize: "12px", letterSpacing: "0.5px" }}>
+        💎 FREE SHIPPING ON ORDERS OVER $30 &nbsp;·&nbsp; USE CODE <strong>GLEAMIA10</strong> FOR 10% OFF
+      </div>
+
+      {/* Main nav */}
+      <div style={{ background: "#fff", borderBottom: "1px solid #e4d8f8", boxShadow: "0 2px 12px rgba(108,63,197,0.08)" }}>
+        <div style={{ maxWidth: "1400px", margin: "0 auto", padding: "12px 32px", display: "flex", alignItems: "center", gap: "24px" }}>
+
+          {/* Logo */}
+          <Link href="/" style={{ textDecoration: "none", flexShrink: 0 }}>
+            <span style={{ fontFamily: "Georgia, serif", fontSize: "24px", fontWeight: "700", letterSpacing: "4px", color: "#6c3fc5" }}>GLEAMIA</span>
           </Link>
-          {user && (
-            <>
-              <Link
-                href={role === "admin" ? "/admin/products" : "/users/products"}
-                className="text-black hover:text-gray-700 transition font-medium"
-              >
-                Products
-              </Link>
-              {role !== "admin" && (
-                <>
-                  <Link
-                    href="/users/cart"
-                    className="text-black hover:text-gray-700 transition font-medium"
-                  >
-                    🛒 Cart
-                  </Link>
-                  <Link
-                    href="/users/profile"
-                    className="text-black hover:text-gray-700 transition font-medium"
-                  >
-                    👤 Profile
-                  </Link>
-                </>
-              )}
-              {role === "admin" && (
-                <Link
-                  href="/admin"
-                  className="text-black hover:text-gray-700 transition font-medium"
-                >
-                  📊 Dashboard
-                </Link>
-              )}
-            </>
-          )}
-        </div>
 
-        {/* Auth Section */}
-        <div className="flex items-center gap-4">
-          {!loading && (
-            <>
-              {user ? (
-                <div className="flex items-center gap-4">
-                  <span className="text-sm text-gray-700 hidden sm:inline">
-                    {user.email}
-                  </span>
-                  <button
-                    onClick={handleLogout}
-                    className="bg-black text-white px-4 py-2 rounded-lg hover:bg-gray-800 transition text-sm font-medium"
-                  >
-                    Logout
-                  </button>
-                </div>
-              ) : (
-                <div className="flex gap-2">
-                  <Link
-                    href="/login"
-                    className="text-black hover:text-gray-700 transition font-medium text-sm"
-                  >
-                    Login
-                  </Link>
-                  <Link
-                    href="/signup"
-                    className="bg-black text-white px-4 py-2 rounded-lg hover:bg-gray-800 transition text-sm font-medium"
-                  >
-                    Sign Up
-                  </Link>
-                </div>
-              )}
-            </>
-          )}
+          {/* Search */}
+          <div style={{ flex: 1, maxWidth: "500px", display: "flex", margin: "0 auto" }}>
+            <input
+              type="text"
+              placeholder="Search for jewelry..."
+              value={search}
+              onChange={e => setSearch(e.target.value)}
+              style={{ flex: 1, padding: "9px 16px", border: "2px solid #d4c8f0", borderRight: "none", fontSize: "13px", outline: "none", borderRadius: "8px 0 0 8px", color: "#1a1a2e", fontFamily: "inherit" }}
+              onFocus={e => e.target.style.borderColor = "#6c3fc5"}
+              onBlur={e => e.target.style.borderColor = "#d4c8f0"}
+            />
+            <button style={{ background: "#6c3fc5", border: "none", padding: "0 16px", cursor: "pointer", borderRadius: "0 8px 8px 0", display: "flex", alignItems: "center" }}>
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#fff" strokeWidth="2.5"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+            </button>
+          </div>
 
-          {/* Mobile Menu Button */}
-          <button
-            onClick={() => setMenuOpen(!menuOpen)}
-            className="md:hidden text-black text-xl"
-          >
-            ☰
-          </button>
+          {/* Right icons */}
+          <div style={{ display: "flex", alignItems: "center", gap: "20px", flexShrink: 0 }}>
+            {!loading && (
+              <>
+                {user ? (
+                  <>
+                    <span style={{ fontSize: "12px", color: "#6b6b8a", display: "none" }}>{user.email}</span>
+                    {role !== "admin" && (
+                      <Link href="/users/cart" style={{ textDecoration: "none", color: "#6c3fc5", display: "flex", flexDirection: "column", alignItems: "center", gap: "2px", fontSize: "11px", fontWeight: "600" }}>
+                        <div style={{ position: "relative" }}>
+                          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>
+                          <span style={{ position: "absolute", top: "-6px", right: "-8px", background: "#ff6b9d", color: "#fff", borderRadius: "50%", width: "16px", height: "16px", fontSize: "10px", display: "flex", alignItems: "center", justifyContent: "center", fontWeight: "700" }}>0</span>
+                        </div>
+                        Cart
+                      </Link>
+                    )}
+                    <Link href={role === "admin" ? "/admin" : "/users/profile"} style={{ textDecoration: "none", color: "#6c3fc5", display: "flex", flexDirection: "column", alignItems: "center", gap: "2px", fontSize: "11px", fontWeight: "600" }}>
+                      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+                      {role === "admin" ? "Dashboard" : "Profile"}
+                    </Link>
+                    <button onClick={handleLogout} style={{ background: "#6c3fc5", color: "#fff", border: "none", padding: "8px 18px", borderRadius: "8px", fontSize: "13px", fontWeight: "600", cursor: "pointer", transition: "background 0.2s" }}
+                      onMouseEnter={e => e.target.style.background = "#4e2d96"}
+                      onMouseLeave={e => e.target.style.background = "#6c3fc5"}>
+                      Logout
+                    </button>
+                  </>
+                ) : (
+                  <>
+                    <Link href="/login" style={{ textDecoration: "none", color: "#6c3fc5", fontSize: "13px", fontWeight: "600", display: "flex", flexDirection: "column", alignItems: "center", gap: "2px" }}>
+                      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+                      Sign In
+                    </Link>
+                    <Link href="/signup" style={{ background: "#6c3fc5", color: "#fff", textDecoration: "none", padding: "9px 20px", borderRadius: "8px", fontSize: "13px", fontWeight: "700", boxShadow: "0 4px 12px rgba(108,63,197,0.3)" }}>
+                      Sign Up
+                    </Link>
+                  </>
+                )}
+              </>
+            )}
+
+            {/* Mobile menu button */}
+            <button onClick={() => setMenuOpen(!menuOpen)} style={{ background: "none", border: "none", cursor: "pointer", color: "#6c3fc5", fontSize: "22px", display: "flex", alignItems: "center" }}>
+              {menuOpen ? "✕" : "☰"}
+            </button>
+          </div>
         </div>
       </div>
 
-      {/* Mobile Menu */}
+      {/* Category nav */}
+      <div style={{ background: "#faf8fe", borderBottom: "1px solid #e4d8f8", overflowX: "auto" }}>
+        <div style={{ maxWidth: "1400px", margin: "0 auto", padding: "0 32px", display: "flex" }}>
+          {["New In", "Sale", "Necklaces", "Rings", "Earrings", "Bracelets", "Anklets", "Sets", "Gift Ideas"].map(cat => (
+            <Link key={cat} href={user ? `/users/products?category=${cat.toLowerCase().replace(" ", "-")}` : "/login"}
+              style={{ textDecoration: "none", color: cat === "Sale" ? "#ff6b9d" : "#4a4a6a", fontSize: "13px", fontWeight: cat === "New In" || cat === "Sale" ? "700" : "500", padding: "10px 14px", whiteSpace: "nowrap", display: "block", borderBottom: "2px solid transparent", transition: "all 0.2s" }}
+              onMouseEnter={e => { e.target.style.color = "#6c3fc5"; e.target.style.borderBottomColor = "#6c3fc5"; }}
+              onMouseLeave={e => { e.target.style.color = cat === "Sale" ? "#ff6b9d" : "#4a4a6a"; e.target.style.borderBottomColor = "transparent"; }}>
+              {cat}
+            </Link>
+          ))}
+        </div>
+      </div>
+
+      {/* Mobile menu */}
       {menuOpen && (
-        <div className="md:hidden bg-white border-t p-4 space-y-2">
-          <Link href="/" className="block text-black hover:bg-gray-100 p-2 rounded">
-            Home
-          </Link>
+        <div style={{ background: "#fff", borderBottom: "1px solid #e4d8f8", padding: "16px 24px", boxShadow: "0 4px 12px rgba(108,63,197,0.1)" }}>
+          {[["Home", "/"], ...(user ? (role === "admin" ? [["📊 Dashboard", "/admin"], ["Products", "/admin/products"]] : [["Products", "/users/products"], ["🛒 Cart", "/users/cart"], ["👤 Profile", "/users/profile"]]) : [["Login", "/login"], ["Sign Up", "/signup"]])].map(([label, href]) => (
+            <Link key={label} href={href} onClick={() => setMenuOpen(false)}
+              style={{ display: "block", padding: "10px 12px", color: "#1a1a2e", textDecoration: "none", fontSize: "14px", fontWeight: "500", borderRadius: "8px", marginBottom: "4px" }}
+              onMouseEnter={e => e.currentTarget.style.background = "#f0ebf8"}
+              onMouseLeave={e => e.currentTarget.style.background = "transparent"}>
+              {label}
+            </Link>
+          ))}
           {user && (
-            <>
-              <Link
-                href={role === "admin" ? "/admin/products" : "/users/products"}
-                className="block text-black hover:bg-gray-100 p-2 rounded"
-              >
-                Products
-              </Link>
-              {role !== "admin" && (
-                <>
-                  <Link
-                    href="/users/cart"
-                    className="block text-black hover:bg-gray-100 p-2 rounded"
-                  >
-                    🛒 Cart
-                  </Link>
-                  <Link
-                    href="/users/profile"
-                    className="block text-black hover:bg-gray-100 p-2 rounded"
-                  >
-                    👤 Profile
-                  </Link>
-                </>
-              )}
-              {role === "admin" && (
-                <Link
-                  href="/admin"
-                  className="block text-black hover:bg-gray-100 p-2 rounded"
-                >
-                  📊 Dashboard
-                </Link>
-              )}
-            </>
+            <button onClick={handleLogout} style={{ width: "100%", marginTop: "8px", background: "#6c3fc5", color: "#fff", border: "none", padding: "10px", borderRadius: "8px", fontSize: "14px", fontWeight: "600", cursor: "pointer" }}>
+              Logout
+            </button>
           )}
         </div>
       )}
-    </nav>
+    </header>
   );
 }

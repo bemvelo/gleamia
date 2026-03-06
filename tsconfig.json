@@ -30,7 +30,7 @@
     "**/*.mts",
     "**/*.ts",
     "**/*.tsx"
-, "src/lib/supabase.js"  ],
+, "src/lib/supabase.js", "app/users/profile/page.js"  ],
   "exclude": [
     "node_modules"
   ]

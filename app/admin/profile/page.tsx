@@ -2,9 +2,8 @@
 
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
-import { supabase } from "@/src/lib/supabase";
-import NavBar from "@/components/NavBar";
-
+import { supabase } from "../../../lib/supabase";
+import NavBar from "../../../components/NavBar";
 type UserRole = "admin" | "user" | null;
 
 export default function AdminProfilePage() {

@@ -2,100 +2,102 @@ import Link from "next/link";
 
 export default function Footer() {
   return (
-    <footer className="bg-gradient-to-r from-[#d4c5e8] to-[#e0d5f0] text-gray-800 mt-16">
-      <div className="max-w-6xl mx-auto px-6 py-12">
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-8 mb-8">
-          {/* Brand - Minimal */}
+    <footer style={{ background: "linear-gradient(135deg, #4e2d96 0%, #6c3fc5 100%)", color: "#fff", fontFamily: "'Segoe UI', Tahoma, Geneva, Verdana, sans-serif", marginTop: "auto" }}>
+
+      {/* Top perks strip */}
+      <div style={{ background: "rgba(255,255,255,0.08)", borderBottom: "1px solid rgba(255,255,255,0.1)" }}>
+        <div style={{ maxWidth: "1200px", margin: "0 auto", padding: "14px 32px", display: "flex", justifyContent: "center", gap: "48px", flexWrap: "wrap" }}>
+          {[["🚚","Free Shipping","On orders over $30"],["↩️","Free Returns","On all orders"],["🔒","Secure Payment","100% protected"],["💎","Quality Guaranteed","Premium materials"]].map(([icon,title,sub]) => (
+            <div key={title} style={{ display: "flex", alignItems: "center", gap: "10px" }}>
+              <span style={{ fontSize: "20px" }}>{icon}</span>
+              <div>
+                <div style={{ fontSize: "12px", fontWeight: "700", color: "#fff" }}>{title}</div>
+                <div style={{ fontSize: "11px", color: "#c4a8f0" }}>{sub}</div>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      {/* Main footer content */}
+      <div style={{ maxWidth: "1200px", margin: "0 auto", padding: "48px 32px 32px" }}>
+        <div style={{ display: "grid", gridTemplateColumns: "2fr 1fr 1fr 1fr", gap: "40px", marginBottom: "40px" }}>
+
+          {/* Brand */}
           <div>
-            <p className="text-sm leading-relaxed text-gray-700">
+            <span style={{ fontFamily: "Georgia, serif", fontSize: "24px", fontWeight: "700", letterSpacing: "4px", color: "#fff", display: "block", marginBottom: "16px" }}>GLEAMIA</span>
+            <p style={{ fontSize: "13px", lineHeight: "1.8", color: "#c4a8f0", marginBottom: "20px", maxWidth: "260px" }}>
               Handcrafted jewelry that celebrates your unique style. Quality, elegance, and timeless beauty in every piece.
             </p>
-            <div className="flex gap-3 mt-4">
-              <a href="#" className="text-gray-600 hover:text-gray-900 transition">f</a>
-              <a href="#" className="text-gray-600 hover:text-gray-900 transition">𝕏</a>
-              <a href="#" className="text-gray-600 hover:text-gray-900 transition">📷</a>
+            {/* Social links */}
+            <div style={{ display: "flex", gap: "10px" }}>
+              {[["f", "Facebook"], ["𝕏", "Twitter"], ["📷", "Instagram"]].map(([icon, label]) => (
+                <a key={label} href="#" aria-label={label} style={{ width: "34px", height: "34px", background: "rgba(255,255,255,0.12)", borderRadius: "8px", display: "flex", alignItems: "center", justifyContent: "center", color: "#fff", fontSize: "13px", textDecoration: "none", transition: "background 0.2s" }}
+                  onMouseEnter={e => e.currentTarget.style.background = "rgba(255,107,157,0.5)"}
+                  onMouseLeave={e => e.currentTarget.style.background = "rgba(255,255,255,0.12)"}>
+                  {icon}
+                </a>
+              ))}
             </div>
           </div>
 
           {/* Shop */}
           <div>
-            <h3 className="font-semibold mb-4 text-gray-900">Shop</h3>
-            <ul className="space-y-2 text-sm text-gray-700">
-              <li>
-                <Link href="/users/products" className="hover:text-black transition">
-                  All Products
-                </Link>
-              </li>
-              <li>
-                <Link href="/users/cart" className="hover:text-black transition">
-                  Cart
-                </Link>
-              </li>
-              <li>
-                <a href="#" className="hover:text-black transition">
-                  New Arrivals
-                </a>
-              </li>
-              <li>
-                <a href="#" className="hover:text-black transition">
-                  Sale Items
-                </a>
-              </li>
+            <h3 style={{ fontSize: "14px", fontWeight: "700", color: "#fff", marginBottom: "18px", letterSpacing: "1px", textTransform: "uppercase" }}>Shop</h3>
+            <ul style={{ listStyle: "none", padding: 0, margin: 0 }}>
+              {[["All Products", "/users/products"], ["Cart", "/users/cart"], ["New Arrivals", "#"], ["Sale Items", "#"]].map(([label, href]) => (
+                <li key={label} style={{ marginBottom: "10px" }}>
+                  <Link href={href} style={{ color: "#c4a8f0", fontSize: "13px", textDecoration: "none", transition: "color 0.2s" }}
+                    onMouseEnter={e => e.target.style.color = "#fff"}
+                    onMouseLeave={e => e.target.style.color = "#c4a8f0"}>
+                    {label}
+                  </Link>
+                </li>
+              ))}
             </ul>
           </div>
 
           {/* Support */}
           <div>
-            <h3 className="font-semibold mb-4 text-gray-900">Support</h3>
-            <ul className="space-y-2 text-sm text-gray-700">
-              <li>
-                <a href="#" className="hover:text-black transition">
-                  About Us
-                </a>
-              </li>
-              <li>
-                <a href="#" className="hover:text-black transition">
-                  FAQs
-                </a>
-              </li>
-              <li>
-                <a href="#" className="hover:text-black transition">
-                  Shipping Info
-                </a>
-              </li>
-              <li>
-                <a href="#" className="hover:text-black transition">
-                  Return Policy
-                </a>
-              </li>
+            <h3 style={{ fontSize: "14px", fontWeight: "700", color: "#fff", marginBottom: "18px", letterSpacing: "1px", textTransform: "uppercase" }}>Support</h3>
+            <ul style={{ listStyle: "none", padding: 0, margin: 0 }}>
+              {[["About Us", "#"], ["FAQs", "#"], ["Shipping Info", "#"], ["Return Policy", "#"]].map(([label, href]) => (
+                <li key={label} style={{ marginBottom: "10px" }}>
+                  <a href={href} style={{ color: "#c4a8f0", fontSize: "13px", textDecoration: "none", transition: "color 0.2s" }}
+                    onMouseEnter={e => e.target.style.color = "#fff"}
+                    onMouseLeave={e => e.target.style.color = "#c4a8f0"}>
+                    {label}
+                  </a>
+                </li>
+              ))}
             </ul>
           </div>
 
           {/* Contact */}
           <div>
-            <h3 className="font-semibold mb-4 text-gray-900">Contact</h3>
-            <p className="text-sm text-gray-700 mb-2">📍 Bulawayo, Zimbabwe</p>
-            <p className="text-sm text-gray-700 mb-2">📧 info@gleamia.com</p>
-            <p className="text-sm text-gray-700">📞 +263 771 XXXX</p>
-            <p className="text-sm text-gray-600 mt-4">Hours: Mon-Sat 9am-6pm</p>
+            <h3 style={{ fontSize: "14px", fontWeight: "700", color: "#fff", marginBottom: "18px", letterSpacing: "1px", textTransform: "uppercase" }}>Contact</h3>
+            <ul style={{ listStyle: "none", padding: 0, margin: 0 }}>
+              {[["📍", "Bulawayo, Zimbabwe"], ["📧", "info@gleamia.com"], ["📞", "+263 780670044"], ["🕐", "Mon-Sat 9am-6pm"]].map(([icon, text]) => (
+                <li key={text} style={{ display: "flex", alignItems: "flex-start", gap: "8px", marginBottom: "10px" }}>
+                  <span style={{ fontSize: "13px", flexShrink: 0 }}>{icon}</span>
+                  <span style={{ color: "#c4a8f0", fontSize: "13px" }}>{text}</span>
+                </li>
+              ))}
+            </ul>
           </div>
         </div>
 
-        {/* Divider */}
-        <div className="border-t border-purple-300 pt-8">
-          <div className="flex flex-col md:flex-row justify-between items-center text-sm text-gray-700">
-            <p>© {new Date().getFullYear()} GLEAMIA. All rights reserved.</p>
-            <div className="flex gap-6 mt-4 md:mt-0">
-              <a href="#" className="hover:text-black transition">
-                Privacy Policy
+        {/* Bottom bar */}
+        <div style={{ borderTop: "1px solid rgba(255,255,255,0.15)", paddingTop: "24px", display: "flex", justifyContent: "space-between", alignItems: "center", flexWrap: "wrap", gap: "12px" }}>
+          <p style={{ fontSize: "12px", color: "#c4a8f0" }}>© {new Date().getFullYear()} GLEAMIA. All rights reserved.</p>
+          <div style={{ display: "flex", gap: "24px" }}>
+            {[["Privacy Policy", "#"], ["Terms of Service", "#"], ["Cookies", "#"]].map(([label, href]) => (
+              <a key={label} href={href} style={{ color: "#c4a8f0", fontSize: "12px", textDecoration: "none", transition: "color 0.2s" }}
+                onMouseEnter={e => e.target.style.color = "#fff"}
+                onMouseLeave={e => e.target.style.color = "#c4a8f0"}>
+                {label}
               </a>
-              <a href="#" className="hover:text-black transition">
-                Terms of Service
-              </a>
-              <a href="#" className="hover:text-black transition">
-                Cookies
-              </a>
-            </div>
+            ))}
           </div>
         </div>
       </div>

@@ -4,7 +4,7 @@
 
 :root {
   --primary: #000000;       /* Black for text/buttons */
-  --accent: #e6e6fa;        /* Light purple background */
+  --accent: #fff;        /* Light purple background */
   --accent-light: #f5f5dc;  /* Slightly lighter section background */
   --success: #10b981;
   --error: #ef4444;
@@ -20,7 +20,7 @@
 }
 
 body {
-  background-color: var(--accent);
+  background-color: #fff;
   color: var(--primary);
   font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
   min-height: 100vh;
