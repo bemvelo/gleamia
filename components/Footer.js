@@ -7,7 +7,7 @@ export default function Footer() {
       {/* Top perks strip */}
       <div style={{ background: "rgba(255,255,255,0.08)", borderBottom: "1px solid rgba(255,255,255,0.1)" }}>
         <div style={{ maxWidth: "1200px", margin: "0 auto", padding: "14px 32px", display: "flex", justifyContent: "center", gap: "48px", flexWrap: "wrap" }}>
-          {[["🚚","Free Shipping","On orders over $30"],["↩️","Free Returns","On all orders"],["🔒","Secure Payment","100% protected"],["💎","Quality Guaranteed","Premium materials"]].map(([icon,title,sub]) => (
+          {[["🚚","Free Deliveryg","On orders over $300"],["↩️","Free Returns","On all orders"],["🔒","Secure Payment","100% protected"],["💎","Quality Guaranteed","Premium materials"]].map(([icon,title,sub]) => (
             <div key={title} style={{ display: "flex", alignItems: "center", gap: "10px" }}>
               <span style={{ fontSize: "20px" }}>{icon}</span>
               <div>
@@ -27,12 +27,12 @@ export default function Footer() {
           <div>
             <span style={{ fontFamily: "Georgia, serif", fontSize: "24px", fontWeight: "700", letterSpacing: "4px", color: "#fff", display: "block", marginBottom: "16px" }}>GLEAMIA</span>
             <p style={{ fontSize: "13px", lineHeight: "1.8", color: "#c4a8f0", marginBottom: "20px", maxWidth: "260px" }}>
-              Handcrafted jewelry that celebrates your unique style. Quality, elegance, and timeless beauty in every piece.
+              Jewelry that celebrates your unique style. Quality, Elegance and Timeless beauty in every piece.
             </p>
             {/* Social links */}
             <div style={{ display: "flex", gap: "10px" }}>
-              {[["f", "Facebook"], ["𝕏", "Twitter"], ["📷", "Instagram"]].map(([icon, label]) => (
-                <a key={label} href="#" aria-label={label} style={{ width: "34px", height: "34px", background: "rgba(255,255,255,0.12)", borderRadius: "8px", display: "flex", alignItems: "center", justifyContent: "center", color: "#fff", fontSize: "13px", textDecoration: "none", transition: "background 0.2s" }}
+              {[["📷", "Instagram", "https://www.instagram.com/gleamia__jewellery/"], ["💬", "WhatsApp", "https://wa.me/263787527809"]].map(([icon, label, url]) => (
+                <a key={label} href={url} target="_blank" rel="noopener noreferrer" aria-label={label} style={{ width: "34px", height: "34px", background: "rgba(255,255,255,0.12)", borderRadius: "8px", display: "flex", alignItems: "center", justifyContent: "center", color: "#fff", fontSize: "16px", textDecoration: "none", transition: "background 0.2s" }}
                   onMouseEnter={e => e.currentTarget.style.background = "rgba(255,107,157,0.5)"}
                   onMouseLeave={e => e.currentTarget.style.background = "rgba(255,255,255,0.12)"}>
                   {icon}
@@ -61,7 +61,7 @@ export default function Footer() {
           <div>
             <h3 style={{ fontSize: "14px", fontWeight: "700", color: "#fff", marginBottom: "18px", letterSpacing: "1px", textTransform: "uppercase" }}>Support</h3>
             <ul style={{ listStyle: "none", padding: 0, margin: 0 }}>
-              {[["About Us", "#"], ["FAQs", "#"], ["Shipping Info", "#"], ["Return Policy", "#"]].map(([label, href]) => (
+              {[["About Us", "#"], ["FAQs", "#"], ["DeliveryInfo", "#"], ["Return Policy", "#"]].map(([label, href]) => (
                 <li key={label} style={{ marginBottom: "10px" }}>
                   <a href={href} style={{ color: "#c4a8f0", fontSize: "13px", textDecoration: "none", transition: "color 0.2s" }}
                     onMouseEnter={e => e.target.style.color = "#fff"}
@@ -77,7 +77,7 @@ export default function Footer() {
           <div>
             <h3 style={{ fontSize: "14px", fontWeight: "700", color: "#fff", marginBottom: "18px", letterSpacing: "1px", textTransform: "uppercase" }}>Contact</h3>
             <ul style={{ listStyle: "none", padding: 0, margin: 0 }}>
-              {[["📍", "Bulawayo, Zimbabwe"], ["📧", "info@gleamia.com"], ["📞", "+263 780670044"], ["🕐", "Mon-Sat 9am-6pm"]].map(([icon, text]) => (
+              {[["📍", "Bulawayo, Zimbabwe"], ["📧", "info@gleamia.com"], ["📞", "+263 787527809"], ["🕐", "Mon-Sat 9am-6pm"]].map(([icon, text]) => (
                 <li key={text} style={{ display: "flex", alignItems: "flex-start", gap: "8px", marginBottom: "10px" }}>
                   <span style={{ fontSize: "13px", flexShrink: 0 }}>{icon}</span>
                   <span style={{ color: "#c4a8f0", fontSize: "13px" }}>{text}</span>

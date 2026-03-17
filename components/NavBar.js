@@ -127,21 +127,6 @@ export default function NavBar() {
         </div>
       </div>
 
-      {/* Category nav */}
-      <div style={{ background: "#faf8fe", borderBottom: "1px solid #e4d8f8", overflowX: "auto" }}>
-        <div style={{ maxWidth: "1400px", margin: "0 auto", padding: "0 32px", display: "flex" }}>
-          {["New In", "Sale", "Necklaces", "Rings", "Earrings", "Bracelets", "Anklets", "Sets", "Gift Ideas"].map(cat => (
-            <Link key={cat}
-              href={user ? `/users/products?category=${encodeURIComponent(cat)}` : "/login"}
-              style={{ textDecoration: "none", color: cat === "Sale" ? "#ff6b9d" : "#4a4a6a", fontSize: "13px", fontWeight: cat === "New In" || cat === "Sale" ? "700" : "500", padding: "10px 14px", whiteSpace: "nowrap", display: "block", borderBottom: "2px solid transparent", transition: "all 0.2s" }}
-              onMouseEnter={e => { e.target.style.color = "#6c3fc5"; e.target.style.borderBottomColor = "#6c3fc5"; }}
-              onMouseLeave={e => { e.target.style.color = cat === "Sale" ? "#ff6b9d" : "#4a4a6a"; e.target.style.borderBottomColor = "transparent"; }}>
-              {cat}
-            </Link>
-          ))}
-        </div>
-      </div>
-
       {/* Mobile menu */}
       {menuOpen && (
         <div style={{ background: "#fff", borderBottom: "1px solid #e4d8f8", padding: "16px 24px", boxShadow: "0 4px 12px rgba(108,63,197,0.1)" }}>

@@ -136,7 +136,7 @@ export default function CartPage() {
                 <span style={{ fontSize: "20px", fontWeight: "700", color: "#6c3fc5" }}>${grandTotal.toFixed(2)}</span>
               </div>
 
-              <Link href="/checkout" style={{ display: "block", background: "linear-gradient(135deg, #6c3fc5, #9b72e0)", color: "#fff", textDecoration: "none", padding: "14px", borderRadius: "12px", textAlign: "center", fontSize: "15px", fontWeight: "700", boxShadow: "0 4px 14px rgba(108,63,197,0.35)", letterSpacing: "0.3px", marginBottom: "12px" }}>
+              <Link href="/users/checkout" style={{ display: "block", background: "linear-gradient(135deg, #6c3fc5, #9b72e0)", color: "#fff", textDecoration: "none", padding: "14px", borderRadius: "12px", textAlign: "center", fontSize: "15px", fontWeight: "700", boxShadow: "0 4px 14px rgba(108,63,197,0.35)", letterSpacing: "0.3px", marginBottom: "12px" }}>
                 Proceed to Checkout →
               </Link>
 
