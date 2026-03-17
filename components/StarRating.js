@@ -2,21 +2,13 @@
 
 import React from 'react';
 
-interface StarRatingProps {
-  rating: number;
-  totalReviews?: number;
-  onRatingChange?: (rating: number) => void;
-  isInteractive?: boolean;
-  size?: 'sm' | 'md' | 'lg';
-}
-
 export default function StarRating({
-  rating,
+  rating = 0,
   totalReviews = 0,
   onRatingChange,
   isInteractive = false,
   size = 'md',
-}: StarRatingProps) {
+}) {
   const [hoverRating, setHoverRating] = React.useState(0);
 
   const sizeMap = {
@@ -31,7 +23,7 @@ export default function StarRating({
     lg: 'w-5 h-5',
   };
 
-  const handleStarClick = (starValue: number) => {
+  const handleStarClick = (starValue) => {
     if (isInteractive && onRatingChange) {
       onRatingChange(starValue);
     }
@@ -49,8 +41,7 @@ export default function StarRating({
       >
         {[1, 2, 3, 4, 5].map((star) => {
           const isFullStar = star <= fullStars;
-          const isHalfStar =
-            hasHalfStar && star === fullStars + 1;
+          const isHalfStar = hasHalfStar && star === fullStars + 1;
 
           return (
             <button

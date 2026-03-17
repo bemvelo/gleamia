@@ -5,44 +5,20 @@ import StarRating from './StarRating';
 import ReviewForm from './ReviewForm';
 import ReviewList from './ReviewList';
 
-interface Review {
-  id: string;
-  userName: string;
-  rating: number;
-  title: string;
-  text: string;
-  createdAt: Date | string;
-  helpful: number;
-}
-
-interface ProductReviewsProps {
-  productId: string;
-  reviews: Review[];
-  averageRating: number;
-  totalReviews: number;
-  isLoading?: boolean;
-  onSubmitReview?: (review: {
-    rating: number;
-    title: string;
-    text: string;
-  }) => Promise<void>;
-  onHelpful?: (reviewId: string) => void;
-}
-
 export default function ProductReviews({
   productId,
-  reviews,
-  averageRating,
-  totalReviews,
+  reviews = [],
+  averageRating = 0,
+  totalReviews = 0,
   isLoading = false,
   onSubmitReview,
   onHelpful,
-}: ProductReviewsProps) {
+}) {
   // Calculate rating distribution
   const ratingDistribution = React.useMemo(() => {
     const distribution = { 5: 0, 4: 0, 3: 0, 2: 0, 1: 0 };
     reviews.forEach((review) => {
-      distribution[review.rating as keyof typeof distribution]++;
+      distribution[review.rating]++;
     });
     return distribution;
   }, [reviews]);
@@ -79,8 +55,7 @@ export default function ProductReviews({
           </h3>
           <div className="space-y-2">
             {[5, 4, 3, 2, 1].map((stars) => {
-              const count =
-                ratingDistribution[stars as keyof typeof ratingDistribution];
+              const count = ratingDistribution[stars];
               const percentage =
                 totalReviews > 0 ? (count / totalReviews) * 100 : 0;
 
