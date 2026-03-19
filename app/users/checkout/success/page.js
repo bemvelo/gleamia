@@ -56,8 +56,8 @@ export default function SuccessPage() {
             <p style={{ fontSize: "13px", fontWeight: "700", color: "#6c3fc5", marginBottom: "12px", letterSpacing: "0.5px", textTransform: "uppercase" }}>What happens next?</p>
             {[
               ["📦", "Your order is being prepared"],
-              ["🚚", "We'll ship within 1-2 business days"],
-              ["💌", "You'll receive tracking info by email"],
+              ["🚚", "Order to be delivered within 1-2 business days"],
+              ["💌", "You will receive tracking info by email"],
             ].map(([emoji, text]) => (
               <div key={text} style={{ display: "flex", alignItems: "center", gap: "10px", marginBottom: "8px" }}>
                 <span style={{ fontSize: "18px" }}>{emoji}</span>
