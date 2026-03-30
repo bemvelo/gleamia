@@ -57,38 +57,38 @@ export default function ProfilePage() {
 
   if (loading) {
     return (
-      <div style={{ minHeight: "100vh", background: "linear-gradient(160deg, #f0ebf8, #e8dff5)", display: "flex", alignItems: "center", justifyContent: "center", fontFamily: "'Segoe UI', Tahoma, Geneva, Verdana, sans-serif" }}>
+      <div style={{ minHeight: "100vh", background: "linear-gradient(160deg, #fdf6f0, #f9ede4)", display: "flex", alignItems: "center", justifyContent: "center", fontFamily: "'Segoe UI', Tahoma, Geneva, Verdana, sans-serif" }}>
         <div style={{ textAlign: "center" }}>
           <div style={{ fontSize: "48px", marginBottom: "16px" }}>💍</div>
-          <p style={{ color: "#6b6b8a", fontSize: "16px" }}>Loading your profile...</p>
+          <p style={{ color: "#8a6a58", fontSize: "16px" }}>Loading your profile...</p>
         </div>
       </div>
     );
   }
 
   return (
-    <div style={{ minHeight: "100vh", background: "linear-gradient(160deg, #f0ebf8 0%, #e8dff5 100%)", fontFamily: "'Segoe UI', Tahoma, Geneva, Verdana, sans-serif", color: "#1a1a2e" }}>
+    <div style={{ minHeight: "100vh", background: "linear-gradient(160deg, #fdf6f0 0%, #f9ede4 100%)", fontFamily: "'Segoe UI', Tahoma, Geneva, Verdana, sans-serif", color: "#2e1a10" }}>
 
       {/* Hero banner */}
-      <div style={{ background: "linear-gradient(135deg, #4e2d96 0%, #6c3fc5 100%)", padding: "52px 32px 80px", position: "relative", overflow: "hidden" }}>
+      <div style={{ background: "linear-gradient(135deg, #7a4a35 0%, #a0623f 100%)", padding: "52px 32px 80px", position: "relative", overflow: "hidden" }}>
         <div style={{ position: "absolute", top: "-80px", right: "-60px", width: "300px", height: "300px", borderRadius: "50%", background: "rgba(255,255,255,0.04)" }} />
-        <div style={{ position: "absolute", bottom: "-60px", left: "5%", width: "200px", height: "200px", borderRadius: "50%", background: "rgba(255,107,157,0.08)" }} />
+        <div style={{ position: "absolute", bottom: "-60px", left: "5%", width: "200px", height: "200px", borderRadius: "50%", background: "rgba(255,220,190,0.08)" }} />
         <div style={{ maxWidth: "900px", margin: "0 auto", position: "relative" }}>
-          <p style={{ fontSize: "11px", letterSpacing: "4px", color: "#c4a8f0", textTransform: "uppercase", fontWeight: "600", marginBottom: "20px" }}>My Account</p>
+          <p style={{ fontSize: "11px", letterSpacing: "4px", color: "#e8c8b0", textTransform: "uppercase", fontWeight: "600", marginBottom: "20px" }}>My Account</p>
           <div style={{ display: "flex", alignItems: "center", gap: "20px", flexWrap: "wrap" }}>
             {/* Avatar */}
-            <div style={{ width: "72px", height: "72px", borderRadius: "50%", background: "linear-gradient(135deg, #ff6b9d, #ff9b72)", display: "flex", alignItems: "center", justifyContent: "center", fontSize: "28px", fontWeight: "700", color: "#fff", flexShrink: 0, boxShadow: "0 4px 16px rgba(255,107,157,0.4)" }}>
+            <div style={{ width: "72px", height: "72px", borderRadius: "50%", background: "linear-gradient(135deg, #d4a88a, #e8c8b0)", display: "flex", alignItems: "center", justifyContent: "center", fontSize: "28px", fontWeight: "700", color: "#7a4a35", flexShrink: 0, boxShadow: "0 4px 16px rgba(176,125,98,0.4)" }}>
               {initials}
             </div>
             <div>
               <h1 style={{ fontSize: "clamp(22px,4vw,34px)", fontFamily: "Georgia,serif", fontWeight: "400", color: "#fff", margin: "0 0 6px", letterSpacing: "1px" }}>
                 Welcome back!
               </h1>
-              <p style={{ color: "#c4a8f0", fontSize: "14px", margin: 0 }}>{email}</p>
-              {joinedDate && <p style={{ color: "#a08cd0", fontSize: "12px", marginTop: "4px" }}>Member since {joinedDate}</p>}
+              <p style={{ color: "#e8c8b0", fontSize: "14px", margin: 0 }}>{email}</p>
+              {joinedDate && <p style={{ color: "#c8a080", fontSize: "12px", marginTop: "4px" }}>Member since {joinedDate}</p>}
             </div>
             {/* Role badge */}
-            <span style={{ marginLeft: "auto", background: role === "admin" ? "rgba(255,107,157,0.25)" : "rgba(255,255,255,0.12)", color: role === "admin" ? "#ffb3d1" : "#e4d8f8", fontSize: "12px", fontWeight: "700", padding: "6px 16px", borderRadius: "20px", letterSpacing: "1px", textTransform: "uppercase", border: `1px solid ${role === "admin" ? "rgba(255,107,157,0.3)" : "rgba(255,255,255,0.2)"}` }}>
+            <span style={{ marginLeft: "auto", background: role === "admin" ? "rgba(212,168,138,0.25)" : "rgba(255,255,255,0.12)", color: role === "admin" ? "#f5dece" : "#f5dece", fontSize: "12px", fontWeight: "700", padding: "6px 16px", borderRadius: "20px", letterSpacing: "1px", textTransform: "uppercase", border: `1px solid ${role === "admin" ? "rgba(212,168,138,0.35)" : "rgba(255,255,255,0.2)"}` }}>
               {role === "admin" ? "⚙️ Admin" : "👤 Member"}
             </span>
           </div>
@@ -104,16 +104,16 @@ export default function ProfilePage() {
             ? [["📦","Orders","Manage all"], ["💎","Products","In store"], ["👥","Users","Registered"]]
             : [["🛒","Cart Items","Saved"], ["📦","Orders","Placed"], ["❤️","Wishlist","Saved"]]
           ).map(([emoji, label, sub]) => (
-            <div key={label} style={{ background: "#fff", borderRadius: "14px", padding: "20px 16px", textAlign: "center", border: "1px solid #e4d8f8", boxShadow: "0 2px 8px rgba(108,63,197,0.06)" }}>
+            <div key={label} style={{ background: "#fffaf6", borderRadius: "14px", padding: "20px 16px", textAlign: "center", border: "1px solid #e8d5c4", boxShadow: "0 2px 8px rgba(176,125,98,0.06)" }}>
               <div style={{ fontSize: "28px", marginBottom: "6px" }}>{emoji}</div>
-              <div style={{ fontSize: "14px", fontWeight: "700", color: "#1a1a2e" }}>{label}</div>
-              <div style={{ fontSize: "11px", color: "#9b72e0" }}>{sub}</div>
+              <div style={{ fontSize: "14px", fontWeight: "700", color: "#2e1a10" }}>{label}</div>
+              <div style={{ fontSize: "11px", color: "#b07d62" }}>{sub}</div>
             </div>
           ))}
         </div>
 
         {/* Section title */}
-        <h2 style={{ fontSize: "16px", fontWeight: "700", color: "#1a1a2e", marginBottom: "16px", letterSpacing: "0.5px" }}>
+        <h2 style={{ fontSize: "16px", fontWeight: "700", color: "#2e1a10", marginBottom: "16px", letterSpacing: "0.5px" }}>
           {role === "admin" ? "⚙️ Admin Dashboard" : "🛍️ Quick Access"}
         </h2>
 
@@ -121,41 +121,41 @@ export default function ProfilePage() {
         <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(190px, 1fr))", gap: "14px", marginBottom: "28px" }}>
           {cards.map(card => (
             <Link key={card.title} href={card.link} style={{ textDecoration: "none" }}>
-              <div style={{ background: "#fff", borderRadius: "14px", padding: "24px 20px", border: "1px solid #e4d8f8", boxShadow: "0 2px 8px rgba(108,63,197,0.06)", cursor: "pointer", transition: "all 0.2s" }}
-                onMouseEnter={e => { e.currentTarget.style.background = "#6c3fc5"; e.currentTarget.style.transform = "translateY(-3px)"; e.currentTarget.style.boxShadow = "0 10px 24px rgba(108,63,197,0.22)"; e.currentTarget.querySelectorAll("[data-text]").forEach(el => el.style.color = "#fff"); e.currentTarget.querySelectorAll("[data-sub]").forEach(el => el.style.color = "#c4a8f0"); }}
-                onMouseLeave={e => { e.currentTarget.style.background = "#fff"; e.currentTarget.style.transform = "none"; e.currentTarget.style.boxShadow = "0 2px 8px rgba(108,63,197,0.06)"; e.currentTarget.querySelectorAll("[data-text]").forEach(el => el.style.color = ""); e.currentTarget.querySelectorAll("[data-sub]").forEach(el => el.style.color = ""); }}>
+              <div style={{ background: "#fffaf6", borderRadius: "14px", padding: "24px 20px", border: "1px solid #e8d5c4", boxShadow: "0 2px 8px rgba(176,125,98,0.06)", cursor: "pointer", transition: "all 0.2s" }}
+                onMouseEnter={e => { e.currentTarget.style.background = "#a0623f"; e.currentTarget.style.transform = "translateY(-3px)"; e.currentTarget.style.boxShadow = "0 10px 24px rgba(176,125,98,0.25)"; e.currentTarget.querySelectorAll("[data-text]").forEach(el => el.style.color = "#fff"); e.currentTarget.querySelectorAll("[data-sub]").forEach(el => el.style.color = "#e8c8b0"); }}
+                onMouseLeave={e => { e.currentTarget.style.background = "#fffaf6"; e.currentTarget.style.transform = "none"; e.currentTarget.style.boxShadow = "0 2px 8px rgba(176,125,98,0.06)"; e.currentTarget.querySelectorAll("[data-text]").forEach(el => el.style.color = ""); e.currentTarget.querySelectorAll("[data-sub]").forEach(el => el.style.color = ""); }}>
                 <div style={{ fontSize: "32px", marginBottom: "12px" }}>{card.emoji}</div>
-                <div data-text style={{ fontSize: "15px", fontWeight: "700", color: "#1a1a2e", marginBottom: "4px" }}>{card.title}</div>
-                <div data-sub style={{ fontSize: "12px", color: "#9b72e0" }}>{card.desc}</div>
+                <div data-text style={{ fontSize: "15px", fontWeight: "700", color: "#2e1a10", marginBottom: "4px" }}>{card.title}</div>
+                <div data-sub style={{ fontSize: "12px", color: "#b07d62" }}>{card.desc}</div>
               </div>
             </Link>
           ))}
         </div>
 
         {/* Account section */}
-        <div style={{ background: "#fff", borderRadius: "16px", padding: "24px 28px", border: "1px solid #e4d8f8", boxShadow: "0 2px 8px rgba(108,63,197,0.06)" }}>
-          <h3 style={{ fontSize: "15px", fontWeight: "700", marginBottom: "18px", color: "#1a1a2e" }}>Account Details</h3>
+        <div style={{ background: "#fffaf6", borderRadius: "16px", padding: "24px 28px", border: "1px solid #e8d5c4", boxShadow: "0 2px 8px rgba(176,125,98,0.06)" }}>
+          <h3 style={{ fontSize: "15px", fontWeight: "700", marginBottom: "18px", color: "#2e1a10" }}>Account Details</h3>
 
-          <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", padding: "14px 0", borderBottom: "1px solid #f0ebf8" }}>
+          <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", padding: "14px 0", borderBottom: "1px solid #f0e4d8" }}>
             <div>
-              <p style={{ fontSize: "12px", color: "#9b72e0", fontWeight: "600", marginBottom: "2px" }}>EMAIL ADDRESS</p>
-              <p style={{ fontSize: "14px", fontWeight: "600", color: "#1a1a2e" }}>{email}</p>
+              <p style={{ fontSize: "12px", color: "#b07d62", fontWeight: "600", marginBottom: "2px" }}>EMAIL ADDRESS</p>
+              <p style={{ fontSize: "14px", fontWeight: "600", color: "#2e1a10" }}>{email}</p>
             </div>
             <span style={{ fontSize: "20px" }}>📧</span>
           </div>
 
-          <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", padding: "14px 0", borderBottom: "1px solid #f0ebf8" }}>
+          <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", padding: "14px 0", borderBottom: "1px solid #f0e4d8" }}>
             <div>
-              <p style={{ fontSize: "12px", color: "#9b72e0", fontWeight: "600", marginBottom: "2px" }}>ACCOUNT TYPE</p>
-              <p style={{ fontSize: "14px", fontWeight: "600", color: "#1a1a2e", textTransform: "capitalize" }}>{role}</p>
+              <p style={{ fontSize: "12px", color: "#b07d62", fontWeight: "600", marginBottom: "2px" }}>ACCOUNT TYPE</p>
+              <p style={{ fontSize: "14px", fontWeight: "600", color: "#2e1a10", textTransform: "capitalize" }}>{role}</p>
             </div>
             <span style={{ fontSize: "20px" }}>{role === "admin" ? "⚙️" : "👤"}</span>
           </div>
 
           <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", padding: "14px 0" }}>
             <div>
-              <p style={{ fontSize: "12px", color: "#9b72e0", fontWeight: "600", marginBottom: "2px" }}>MEMBER SINCE</p>
-              <p style={{ fontSize: "14px", fontWeight: "600", color: "#1a1a2e" }}>{joinedDate || "—"}</p>
+              <p style={{ fontSize: "12px", color: "#b07d62", fontWeight: "600", marginBottom: "2px" }}>MEMBER SINCE</p>
+              <p style={{ fontSize: "14px", fontWeight: "600", color: "#2e1a10" }}>{joinedDate || "—"}</p>
             </div>
             <span style={{ fontSize: "20px" }}>📅</span>
           </div>

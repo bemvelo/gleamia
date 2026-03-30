@@ -7,10 +7,10 @@ import { supabase } from "../lib/supabase";
 const EMOJI_MAP = { Rings: "💍", Necklaces: "📿", Earrings: "✨", Bracelets: "📿", Anklets: "⭐", Sets: "💎", default: "💎" };
 
 const perks = [
-  ["🚚", "Free Shipping", "On orders over $30"],
-  ["↩️", "Free Returns", "On all orders"],
-  ["🔒", "Secure Payment", "100% protected"],
-  ["💎", "Quality Guaranteed", "Premium materials"],
+  ["Free Delivery", "On orders over $30"],
+  ["Free Returns", "On all orders"],
+  ["Secure Payment", "100% protected"],
+  ["Quality Guaranteed", "Premium materials"],
 ];
 
 const styles = `
@@ -595,7 +595,7 @@ export default function HomePage() {
         {/* Promo bar */}
         <div className="promo-bar">
           <span> <strong>Free Delivery</strong> · T&Cs Apply</span>
-          <span>↩<strong>Free Returns</strong> · All Orders</span>
+          <span>↩<strong>No Returns</strong> · All Orders</span>
           <span> <strong>No Hidden Fees</strong> · Guaranteed</span>
         </div>
 
@@ -606,10 +606,8 @@ export default function HomePage() {
           <div className="hero-content">
             <p className="hero-eyebrow">New Collection · 2026</p>
             <h1 className="hero-brand">NOVAGEM</h1>
-            <p className="hero-tagline-small">Where Tech Meets Elegance</p>
+            <p className="hero-tagline-small">Where Elegance Meets Modernity</p>
             <div className="hero-divider" />
-            <p className="hero-headline">Discover Timeless Elegance</p>
-            <p className="hero-sub">Jewelry that tells your story</p>
             <div style={{ display: "flex", gap: "14px", justifyContent: "center", flexWrap: "wrap" }}>
               <Link href={shopLink} className="btn-primary">
                 {isLoggedIn ? "Shop Now" : "Get Started"}

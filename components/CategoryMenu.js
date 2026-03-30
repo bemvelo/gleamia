@@ -2,16 +2,10 @@
 
 import { useState } from "react";
 
-export default function CategoryMenu({
-  categories,
-  onSelect,
-}: {
-  categories: string[];
-  onSelect: (cat: string) => void;
-}) {
+export default function CategoryMenu({ categories, onSelect }) {
   const [selected, setSelected] = useState("All");
 
-  const handleSelect = (cat: string) => {
+  const handleSelect = (cat) => {
     setSelected(cat);
     onSelect(cat);
   };

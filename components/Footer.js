@@ -29,10 +29,9 @@ export default function Footer() {
           }}
         >
           {[
-            ["🚚", "Free Delivery", "On orders over $300"],
-            ["↩️", "Free Returns", "On all orders"],
-            ["🔒", "Secure Payment", "100% protected"],
-            ["💎", "Quality Guaranteed", "Premium materials"],
+            ["Free Delivery", "On orders over $300"],
+            ["Secure Payment"],
+            ["Quality Guaranteed"],
           ].map(([icon, title, sub]) => (
             <div key={title} style={{ display: "flex", gap: "10px" }}>
               <span>{icon}</span>
@@ -120,6 +119,7 @@ export default function Footer() {
             </h3>
             <p style={{ fontSize: "13px" }}>Bulawayo, Zimbabwe</p>
             <p style={{ fontSize: "13px" }}>info@novagem.com</p>
+             <p style={{ fontSize: "13px" }}>+263780670044</p>
           </div>
         </div>
 
