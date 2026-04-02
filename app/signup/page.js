@@ -351,12 +351,20 @@ export default function SignupPage() {
     setLoading(true);
     setError("");
     try {
-      const { data, error: authError } = await supabase.auth.signUp({ email, password });
-      if (authError) { setError(authError.message || "Sign up failed."); setLoading(false); return; }
-      if (!data.user) { setError("Sign up failed. Please try again."); setLoading(false); return; }
+      // ✅ Role determined before the API call
       const role = email === "admin@novagem.com" ? "admin" : "user";
-      const { error: insertError } = await supabase.from("users").insert({ id: data.user.id, email, role, created_at: new Date().toISOString() });
-      if (insertError) { setError(insertError.message || "Failed to create user profile."); setLoading(false); return; }
+
+      const { data, error: authError } = await supabase.auth.signUp({
+        email,
+        password,
+        options: {
+          data: { role }, // ✅ Role saved into user_metadata — no separate DB insert needed
+        },
+      });
+
+      if (authError) { setError(authError.message || "Sign up failed."); return; }
+      if (!data.user) { setError("Sign up failed. Please try again."); return; }
+
       router.push(role === "admin" ? "/admin" : "/users/products");
     } catch (err) {
       setError(err.message || "Sign up failed.");

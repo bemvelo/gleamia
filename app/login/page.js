@@ -335,11 +335,12 @@ export default function LoginPage() {
     setError("");
     try {
       const { data, error: authError } = await supabase.auth.signInWithPassword({ email, password });
-      if (authError) { setError(authError.message || "Login failed."); setLoading(false); return; }
-      if (!data.user) { setError("Login failed. Please try again."); setLoading(false); return; }
-      const { data: userData, error: userError } = await supabase.from("users").select("role").eq("id", data.user.id).single();
-      if (userError || !userData) { setError("Could not fetch user role."); setLoading(false); return; }
-      const userRole = userData.role || "user";
+      if (authError) { setError(authError.message || "Login failed."); return; }
+      if (!data.user) { setError("Login failed. Please try again."); return; }
+
+      // ✅ Role read from JWT metadata — no second DB call needed
+      const userRole = data.user.user_metadata?.role || "user";
+
       if (role === "admin" && userRole === "admin") router.push("/admin");
       else if (role === "user") router.push("/users/products");
       else setError("You don't have permission to access this role.");
