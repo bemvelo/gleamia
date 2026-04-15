@@ -1,0 +1,128 @@
+mutation CreateSeedData @transaction @auth(level: PUBLIC, insecureReason: "This is a seed data mutation and can be run by anyone to populate initial data.") {
+  user_insertMany(data: [
+    {
+      id: "c87a552e-6d1a-4d7a-8b8a-1d7a552e6d1a",
+      email: "alice@example.com",
+      passwordHash: "hashedpassword123",
+      displayName: "Alice Smith",
+      createdAt: "2023-01-01T10:00:00Z",
+      firstName: "Alice",
+      lastName: "Smith",
+      shippingAddress: "123 Main St, Anytown, USA",
+      billingAddress: "123 Main St, Anytown, USA",
+      phoneNumber: "555-1111"
+    },
+    {
+      id: "d98b663f-7e2b-5e8b-9c9b-2e8b663f7e2b",
+      email: "bob@example.com",
+      passwordHash: "hashedpassword456",
+      displayName: "Bob Johnson",
+      createdAt: "2023-01-02T11:00:00Z",
+      firstName: "Bob",
+      lastName: "Johnson",
+      shippingAddress: "456 Oak Ave, Otherville, USA",
+      billingAddress: "456 Oak Ave, Otherville, USA",
+      phoneNumber: "555-2222"
+    }
+  ])
+  product_insertMany(data: [
+    {
+      id: "f1a2b3c4-d5e6-7f8a-9b0c-1d2e3f4a5b6c",
+      name: "Sapphire Ring",
+      description: "Elegant sapphire ring with silver band.",
+      price: 1500.00,
+      imageUrl: "https://example.com/sapphire_ring.jpg",
+      stockQuantity: 10,
+      createdAt: "2023-01-05T09:00:00Z",
+      category: "Ring",
+      material: "Silver",
+      gemstone: "Sapphire",
+      weight: 5.5
+    },
+    {
+      id: "e0f1g2h3-i4j5-6k7l-8m9n-0o1p2q3r4s5t",
+      name: "Diamond Necklace",
+      description: "Stunning diamond necklace, perfect for special occasions.",
+      price: 3500.00,
+      imageUrl: "https://example.com/diamond_necklace.jpg",
+      stockQuantity: 5,
+      createdAt: "2023-01-06T10:00:00Z",
+      category: "Necklace",
+      material: "Gold",
+      gemstone: "Diamond",
+      weight: 12.0
+    }
+  ])
+  order_insertMany(data: [
+    {
+      id: "a1b2c3d4-e5f6-7a8b-9c0d-1e2f3a4b5c6d",
+      userId: "c87a552e-6d1a-4d7a-8b8a-1d7a552e6d1a",
+      orderDate: "2023-01-10T14:30:00Z",
+      totalAmount: 1500.00,
+      status: "Processing",
+      shippingAddress: "123 Main St, Anytown, USA",
+      billingAddress: "123 Main St, Anytown, USA"
+    },
+    {
+      id: "b2c3d4e5-f6a7-8b9c-0d1e-2f3a4b5c6d7e",
+      userId: "d98b663f-7e2b-5e8b-9c9b-2e8b663f7e2b",
+      orderDate: "2023-01-11T16:00:00Z",
+      totalAmount: 3500.00,
+      status: "Confirmed",
+      shippingAddress: "456 Oak Ave, Otherville, USA",
+      billingAddress: "456 Oak Ave, Otherville, USA"
+    }
+  ])
+  orderItem_insertMany(data: [
+    {
+      orderId: "a1b2c3d4-e5f6-7a8b-9c0d-1e2f3a4b5c6d",
+      productId: "f1a2b3c4-d5e6-7f8a-9b0c-1d2e3f4a5b6c",
+      quantity: 1,
+      unitPrice: 1500.00
+    },
+    {
+      orderId: "b2c3d4e5-f6a7-8b9c-0d1e-2f3a4b5c6d7e",
+      productId: "e0f1g2h3-i4j5-6k7l-8m9n-0o1p2q3r4s5t",
+      quantity: 1,
+      unitPrice: 3500.00
+    }
+  ])
+  payment_insertMany(data: [
+    {
+      orderId: "a1b2c3d4-e5f6-7a8b-9c0d-1e2f3a4b5c6d",
+      paymentMethod: "Credit Card",
+      amount: 1500.00,
+      transactionId: "txn_123456",
+      paymentDate: "2023-01-10T14:35:00Z",
+      status: "Completed"
+    },
+    {
+      orderId: "b2c3d4e5-f6a7-8b9c-0d1e-2f3a4b5c6d7e",
+      paymentMethod: "PayPal",
+      amount: 3500.00,
+      transactionId: "txn_789012",
+      paymentDate: "2023-01-11T16:05:00Z",
+      status: "Completed"
+    }
+  ])
+  userActivity_insertMany(data: [
+    {
+      userId: "c87a552e-6d1a-4d7a-8b8a-1d7a552e6d1a",
+      activityType: "VIEW_PRODUCT",
+      timestamp: "2023-01-08T10:15:00Z",
+      productId: "f1a2b3c4-d5e6-7f8a-9b0c-1d2e3f4a5b6c"
+    },
+    {
+      userId: "c87a552e-6d1a-4d7a-8b8a-1d7a552e6d1a",
+      activityType: "ADD_TO_CART",
+      timestamp: "2023-01-08T10:20:00Z",
+      productId: "f1a2b3c4-d5e6-7f8a-9b0c-1d2e3f4a5b6c"
+    },
+    {
+      userId: "d98b663f-7e2b-5e8b-9c9b-2e8b663f7e2b",
+      activityType: "SEARCH",
+      timestamp: "2023-01-09T11:00:00Z",
+      searchQuery: "diamond necklace"
+    }
+  ])
+}

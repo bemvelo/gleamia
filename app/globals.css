@@ -1,0 +1,160 @@
+/* ===========================
+   GLOBAL COLORS & FONTS
+   =========================== */
+
+:root {
+  --primary: #000000;
+  --accent: #fdf6f0;        /* Cream background (was #fff - invisible on white) */
+  --accent-light: #f5f5dc;  /* Slightly lighter section background */
+  --success: #10b981;
+  --error: #ef4444;
+  --border: #ccc;
+  --shadow: 0 4px 8px rgba(0,0,0,0.1);
+  --transition: all 0.3s ease;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  background-color: var(--accent);
+  color: var(--primary);
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  min-height: 100vh;
+}
+
+/* ===========================
+   CONTAINERS
+   =========================== */
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 2rem;
+}
+
+/* ===========================
+   CARDS & SECTIONS
+   =========================== */
+
+.card {
+  background-color: var(--accent-light);
+  padding: 2rem;
+  border-radius: 12px;
+  box-shadow: var(--shadow);
+  margin-bottom: 2rem;
+}
+
+/* ===========================
+   HEADINGS
+   =========================== */
+
+h1, h2, h3, h4 {
+  color: var(--primary);
+  font-weight: 700;
+  margin-bottom: 1rem;
+}
+
+h1 { font-size: 2.5rem; }
+h2 { font-size: 2rem; }
+h3 { font-size: 1.5rem; }
+
+/* ===========================
+   BUTTONS
+   =========================== */
+
+button, .button {
+  font-family: inherit;
+  font-size: 1rem;
+  font-weight: 600;
+  padding: 0.75rem 1.5rem;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: var(--transition);
+  border: none;
+}
+
+.button-primary {
+  background-color: var(--primary);
+  color: #fff;
+}
+
+.button-primary:hover {
+  background-color: #222;
+}
+
+.button-secondary {
+  background-color: transparent;
+  color: var(--primary);
+  border: 2px solid var(--primary);
+}
+
+.button-secondary:hover {
+  background-color: var(--primary);
+  color: #fff;
+}
+
+.button-success {
+  background-color: var(--success);
+  color: #fff;
+}
+
+.button-success:hover {
+  opacity: 0.9;
+}
+
+/* ===========================
+   INPUTS
+   =========================== */
+
+input, select, textarea {
+  width: 100%;
+  padding: 0.75rem 1rem;
+  border: 2px solid var(--border);
+  border-radius: 8px;
+  margin-bottom: 1rem;
+  font-size: 1rem;
+  color: var(--primary);
+  background-color: #fff;
+}
+
+input:focus, select:focus, textarea:focus {
+  outline: none;
+  border-color: var(--primary);
+  box-shadow: 0 0 0 3px rgba(0,0,0,0.05);
+}
+
+/* ===========================
+   LINKS
+   =========================== */
+
+a {
+  color: var(--primary);
+  text-decoration: none;
+  transition: var(--transition);
+}
+
+a:hover {
+  color: #333;
+}
+
+/* ===========================
+   GRIDS
+   =========================== */
+
+.grid {
+  display: grid;
+  gap: 2rem;
+}
+
+.grid-cols-1 { grid-template-columns: 1fr; }
+.grid-cols-2 { grid-template-columns: repeat(2, 1fr); }
+.grid-cols-3 { grid-template-columns: repeat(3, 1fr); }
+
+@media (max-width: 768px) {
+  .grid-cols-3 { grid-template-columns: 1fr; }
+  .grid-cols-2 { grid-template-columns: 1fr; }
+}
