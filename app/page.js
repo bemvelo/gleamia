@@ -10,17 +10,15 @@ const EMOJI_MAP = {
   Earrings: "✨",
   Bracelets: "📿",
   Anklets: "⭐",
-  Sets: "💎",
   default: "💎",
 };
 
 // ✅ FIX 1: Each perk now has [icon, title, subtitle] so destructuring works
 // and key={title} resolves to a real string, not undefined.
 const perks = [
-  ["🚚", "Free Delivery", "On all orders"],
-  ["↩", "Free Returns", "Hassle-free policy"],
-  ["🔒", "Secure Payment", "100% protected"],
-  ["⭐", "Quality Guaranteed", "Or your money back"],
+  [" ", "Free Delivery", "On all orders > $30"],
+  [" ", "Secure Payment", "100% protected"],
+  [" ", "Quality Guaranteed", "Or your money back"],
 ];
 
 const styles = `
@@ -606,11 +604,6 @@ export default function HomePage() {
       <div style={{ minHeight: "100vh" }}>
 
         {/* Promo bar — ✅ FIX 3: messaging now consistent with perks ("Free Returns") */}
-        <div className="promo-bar">
-          <span><strong>Free Delivery</strong> · T&Cs Apply</span>
-          <span>↩ <strong>Free Returns</strong> · All Orders</span>
-          <span><strong>No Hidden Fees</strong> · Guaranteed</span>
-        </div>
 
         {/* Hero */}
         <div className="hero">
@@ -619,13 +612,13 @@ export default function HomePage() {
           <div className="hero-content">
             <p className="hero-eyebrow">New Collection · 2026</p>
             <h1 className="hero-brand">NOVAGEM</h1>
-            <p className="hero-tagline-small">Where Elegance Meets Modernity</p>
+            <p className="hero-tagline-small">   </p>
             <div className="hero-divider" />
             <div style={{ display: "flex", gap: "14px", justifyContent: "center", flexWrap: "wrap" }}>
               <Link href={shopLink} className="btn-primary">
                 {isLoggedIn ? "Shop Now" : "Get Started"}
               </Link>
-              <Link href="#features" className="btn-outline">View Sale</Link>
+              <Link href="#features" className="btn-outline">Happy Shopping</Link>
             </div>
           </div>
         </div>
@@ -719,7 +712,7 @@ export default function HomePage() {
             <h2 className="reviews-title">What Our Customers Say</h2>
             <div className="reviews-grid">
               {[
-                ["Sarah M.", "Beautiful quality! Arrived perfectly packaged."],
+                ["Bemvelo T.", "Beautiful quality! Arrived perfectly packaged."],
                 ["James L.", "Exactly what I was looking for. Highly recommend!"],
                 ["Anna R.", "Amazing customer service and stunning pieces."],
               ].map(([name, review]) => (
@@ -736,14 +729,7 @@ export default function HomePage() {
           {/* Banners */}
           <div className="banners-grid">
             <div className="banner-light">
-              <p className="banner-eyebrow">Just Arrived</p>
-              <h3 className="banner-heading">New Arrivals</h3>
               <Link href={shopLink} className="banner-link">Shop Now →</Link>
-            </div>
-            <div className="banner-dark">
-              <p className="banner-eyebrow">Up to 60% Off</p>
-              <h3 className="banner-heading">Sale Collection</h3>
-              <Link href={shopLink} className="banner-link">Shop Sale →</Link>
             </div>
           </div>
 

@@ -28,20 +28,21 @@ export default function Footer() {
             flexWrap: "wrap",
           }}
         >
-          {[
-            { title: "Free Delivery"},
-            { title: "Secure Payment"},
-            { title: "Quality Guaranteed"},
-          ].map((item) => (
-            <div key={item.title} style={{ display: "flex", gap: "10px" }}>
+          {/**
+           * @type {Array<{title: string; sub?: string}>}
+           */
+          ([
+           
+          ]).map((item) => (
+            <div key={item?.title ?? ""} style={{ display: "flex", gap: "10px" }}>
               <span>•</span>
               <div>
                 <div style={{ fontSize: "12px", fontWeight: "700" }}>
-                  {item.title}
+                  {item?.title}
                 </div>
-                {item.sub ? (
+                {item?.sub ? (
                   <div style={{ fontSize: "11px", color: "#b76e79" }}>
-                    {item.sub}
+                    {item?.sub}
                   </div>
                 ) : null}
               </div>
