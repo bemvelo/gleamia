@@ -3,6 +3,7 @@ import "./globals.css";
 import NavBar from "../components/NavBar";
 import Footer from "../components/Footer";
 
+// @ts-ignore
 export default function Layout({ children }) {
   return (
     <html lang="en">

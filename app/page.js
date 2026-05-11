@@ -726,13 +726,6 @@ export default function HomePage() {
             </div>
           </div>
 
-          {/* Banners */}
-          <div className="banners-grid">
-            <div className="banner-light">
-              <Link href={shopLink} className="banner-link">Shop Now →</Link>
-            </div>
-          </div>
-
         </div>
 
         {/* CTA */}
