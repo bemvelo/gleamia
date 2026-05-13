@@ -10,6 +10,10 @@ User Profile:
 Username/email: buhlebemvelotshabangu@gmail.com 
 password:buhle2004.
 
+
+
+
+NB:System is secure by design hence only one admin address has access rights
 Admin Profile:
 Username:admin@gleamia.com
 Password:admin12345
